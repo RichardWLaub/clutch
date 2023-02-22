@@ -3552,8 +3552,6 @@ func (m *Deployment) validate(all bool) error {
 		}
 	}
 
-	// no validation rules for CreationTimeMillis
-
 	if all {
 		switch v := interface{}(m.GetDeploymentSpec()).(type) {
 		case interface{ ValidateAll() error }:
@@ -3582,6 +3580,8 @@ func (m *Deployment) validate(all bool) error {
 			}
 		}
 	}
+
+	// no validation rules for CreationTimeMillis
 
 	if len(errors) > 0 {
 		return DeploymentMultiError(errors)

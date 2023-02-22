@@ -88,6 +88,7 @@ func ProtoForDeployment(cluster string, deployment *appsv1.Deployment) *k8sapiv1
 }
 
 func ProtoForDeploymentSpec(deploymentSpec appsv1.DeploymentSpec) *k8sapiv1.Deployment_DeploymentSpec {
+<<<<<<< HEAD
 	deploymentContainers := make([]*k8sapiv1.Deployment_DeploymentSpec_PodTemplateSpec_PodSpec_Container, 0, len(deploymentSpec.Template.Spec.Containers))
 	for _, container := range deploymentSpec.Template.Spec.Containers {
 		resourceLimits := make(map[string]string, len(container.Resources.Limits))
@@ -99,6 +100,20 @@ func ProtoForDeploymentSpec(deploymentSpec appsv1.DeploymentSpec) *k8sapiv1.Depl
 
 		for res, quantity := range container.Resources.Requests {
 			resourceRequests[string(res)] = quantity.String()
+=======
+	var deploymentContainers []*k8sapiv1.Deployment_DeploymentSpec_PodTemplateSpec_PodSpec_Container
+	for _, container := range deploymentSpec.Template.Spec.Containers {
+
+		resourceLimits := make(map[string]string)
+		resourceRequests := make(map[string]string)
+
+		for resource, quantity := range container.Resources.Limits {
+			resourceLimits[string(resource)] = quantity.String()
+		}
+
+		for resource, quantity := range container.Resources.Requests {
+			resourceRequests[string(resource)] = quantity.String()
+>>>>>>> c9b0f982 (core: kubernetes deployment update api to support resource updates)
 		}
 
 		newContainer := &k8sapiv1.Deployment_DeploymentSpec_PodTemplateSpec_PodSpec_Container{
@@ -175,7 +190,12 @@ func (s *svc) UpdateDeployment(ctx context.Context, clientset, cluster, namespac
 
 	newDeployment := oldDeployment.DeepCopy()
 	mergeDeploymentLabelsAndAnnotations(newDeployment, fields)
+<<<<<<< HEAD
 	if err := updateContainerResources(newDeployment, fields); err != nil {
+=======
+	err = updateContainerResources(newDeployment, fields)
+	if err != nil {
+>>>>>>> c9b0f982 (core: kubernetes deployment update api to support resource updates)
 		return err
 	}
 
@@ -214,6 +234,7 @@ func mergeDeploymentLabelsAndAnnotations(deployment *appsv1.Deployment, fields *
 }
 
 func updateContainerResources(deployment *appsv1.Deployment, fields *k8sapiv1.UpdateDeploymentRequest_Fields) error {
+<<<<<<< HEAD
 	for _, containerResource := range fields.ContainerResources {
 		for _, container := range deployment.Spec.Template.Spec.Containers {
 			if container.Name == containerResource.ContainerName {
@@ -230,6 +251,29 @@ func updateContainerResources(deployment *appsv1.Deployment, fields *k8sapiv1.Up
 						return err
 					}
 					container.Resources.Requests[v1.ResourceName(resourceName)] = quantity
+=======
+	if len(fields.ContainerResources) > 0 {
+		for _, containerResource := range fields.ContainerResources {
+			for _, container := range deployment.Spec.Template.Spec.Containers {
+				if container.Name == containerResource.ContainerName {
+					resourceNames := []string{"cpu", "memory"}
+					for _, resourceName := range resourceNames {
+						if len(containerResource.Resources.Limits[resourceName]) > 0 {
+							quantity, err := resource.ParseQuantity(containerResource.Resources.Limits[resourceName])
+							if err != nil {
+								return err
+							}
+							container.Resources.Limits[v1.ResourceName(resourceName)] = quantity
+						}
+						if len(containerResource.Resources.Requests[resourceName]) > 0 {
+							quantity, err := resource.ParseQuantity(containerResource.Resources.Requests[resourceName])
+							if err != nil {
+								return err
+							}
+							container.Resources.Requests[v1.ResourceName(resourceName)] = quantity
+						}
+					}
+>>>>>>> c9b0f982 (core: kubernetes deployment update api to support resource updates)
 				}
 			}
 		}
