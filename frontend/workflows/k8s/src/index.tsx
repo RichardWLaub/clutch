@@ -46,11 +46,11 @@ const register = (): WorkflowConfiguration => {
         requiredConfigProps: ["resolverType"],
       },
       scaleResources: {
-        path: "/",
+        path: "scale/resources",
         displayName: "Scale Resources",
         description: "Scale CPU and memory requests and limits.",
         component: ScaleResources,
-        requiredConfigProps: [],
+        requiredConfigProps: ["resolverType"],
       },
       kubeDashboard: {
         path: "dashboard",

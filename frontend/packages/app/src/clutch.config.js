@@ -62,6 +62,9 @@ module.exports = {
     },
     scaleResources: {
       trending: true,
+      componentProps: {
+        resolverType: "clutch.k8s.v1.Deployment",
+      },
     },
     cordonNode: {
       trending: true,
