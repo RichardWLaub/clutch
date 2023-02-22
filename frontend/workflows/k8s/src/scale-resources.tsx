@@ -34,22 +34,24 @@ const DeploymentIdentifier: React.FC<ResolverChild> = ({ resolverType }) => {
 const DeploymentDetails: React.FC<WizardChild> = () => {
   const { onSubmit, onBack } = useWizardContext();
   const resourceData = useDataLayout("resourceData");
-  const node = resourceData.displayValue() as IClutch.k8s.v1.Node;
-  const update = (_: any, value: boolean) => {
-    resourceData.updateData("unschedulable", value);
+  const deployment = resourceData.displayValue() as IClutch.k8s.v1.Deployment;
+  const update = (key: string, value: boolean) => {
+    resourceData.updateData(key, value);
   };
   return (
     <WizardStep error={resourceData.error} isLoading={resourceData.isLoading}>
-      <strong>Node Details</strong>
+      <strong>Deployment Details</strong>
       <MetadataTable
         onUpdate={update}
         data={[
-          { name: "Name", value: node.name },
-          { name: "Cluster", value: node.cluster },
-          {
-            name: "Unschedulable",
-            value: <Switch checked={node.unschedulable} onChange={update} />,
-          },
+          { name: "Name", value: deployment.name },
+          { name: "Namespace", value: deployment.namespace },
+          { name: "Deployment Status", value: deployment.deploymentStatus.replicas}
+          // { name: "Deployment Status", value: deployment.deploymentStatus },
+          // {
+          //   name: "Unschedulable",
+          //   value: "crontupisto", // <Switch checked={node.unschedulable} onChange={update} />,
+          // },
         ]}
       />
       <ButtonGroup>
