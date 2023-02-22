@@ -31,7 +31,7 @@ const DeploymentIdentifier: React.FC<ResolverChild> = ({ resolverType }) => {
   return <Resolver type={resolverType} searchLimit={1} onResolve={onResolve} />;
 };
 
-const NodeDetails: React.FC<WizardChild> = () => {
+const DeploymentDetails: React.FC<WizardChild> = () => {
   const { onSubmit, onBack } = useWizardContext();
   const resourceData = useDataLayout("resourceData");
   const node = resourceData.displayValue() as IClutch.k8s.v1.Node;
@@ -98,7 +98,7 @@ const ScaleResources: React.FC<WorkflowProps> = ({ heading, resolverType }) => {
   return (
     <Wizard dataLayout={dataLayout} heading={heading}>
       <DeploymentIdentifier name="Lookup" resolverType={resolverType} />
-      <NodeDetails name="Verify" />
+      <DeploymentDetails name="Modify" />
       <Confirm name="Confirmation" />
     </Wizard>
   );
