@@ -5,6 +5,7 @@ import CordonNode from "./cordon-node";
 import DeletePod from "./delete-pod";
 import KubeDashboard from "./k8s-dashboard";
 import ResizeHPA from "./resize-hpa";
+import ScaleResources from "./scale-resources";
 
 interface ResolverConfigProps {
   resolverType: string;
@@ -43,6 +44,13 @@ const register = (): WorkflowConfiguration => {
         description: "Resize a horizontal autoscaler.",
         component: ResizeHPA,
         requiredConfigProps: ["resolverType"],
+      },
+      scaleResources: {
+        path: "/",
+        displayName: "Scale Resources",
+        description: "Scale CPU and memory requests and limits.",
+        component: ScaleResources,
+        requiredConfigProps: [],
       },
       kubeDashboard: {
         path: "dashboard",

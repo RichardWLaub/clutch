@@ -60,6 +60,9 @@ module.exports = {
     kubeDashboard: {
       trending: true,
     },
+    scaleResources: {
+      trending: true,
+    },
     cordonNode: {
       trending: true,
       componentProps: {
