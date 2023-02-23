@@ -38965,6 +38965,7 @@ export const clutch = $root.clutch = (() => {
                  * @property {Object.<string,string>|null} [labels] Deployment labels
                  * @property {Object.<string,string>|null} [annotations] Deployment annotations
                  * @property {clutch.k8s.v1.Deployment.IDeploymentStatus|null} [deploymentStatus] Deployment deploymentStatus
+                 * @property {clutch.k8s.v1.Deployment.IDeploymentSpec|null} [deploymentSpec] Deployment deploymentSpec
                  * @property {number|Long|null} [creationTimeMillis] Deployment creationTimeMillis
                  */
 
@@ -39034,6 +39035,14 @@ export const clutch = $root.clutch = (() => {
                 Deployment.prototype.deploymentStatus = null;
 
                 /**
+                 * Deployment deploymentSpec.
+                 * @member {clutch.k8s.v1.Deployment.IDeploymentSpec|null|undefined} deploymentSpec
+                 * @memberof clutch.k8s.v1.Deployment
+                 * @instance
+                 */
+                Deployment.prototype.deploymentSpec = null;
+
+                /**
                  * Deployment creationTimeMillis.
                  * @member {number|Long} creationTimeMillis
                  * @memberof clutch.k8s.v1.Deployment
@@ -39082,6 +39091,11 @@ export const clutch = $root.clutch = (() => {
                         if (error)
                             return "deploymentStatus." + error;
                     }
+                    if (message.deploymentSpec != null && message.hasOwnProperty("deploymentSpec")) {
+                        let error = $root.clutch.k8s.v1.Deployment.DeploymentSpec.verify(message.deploymentSpec);
+                        if (error)
+                            return "deploymentSpec." + error;
+                    }
                     if (message.creationTimeMillis != null && message.hasOwnProperty("creationTimeMillis"))
                         if (!$util.isInteger(message.creationTimeMillis) && !(message.creationTimeMillis && $util.isInteger(message.creationTimeMillis.low) && $util.isInteger(message.creationTimeMillis.high)))
                             return "creationTimeMillis: integer|Long expected";
@@ -39125,6 +39139,11 @@ export const clutch = $root.clutch = (() => {
                             throw TypeError(".clutch.k8s.v1.Deployment.deploymentStatus: object expected");
                         message.deploymentStatus = $root.clutch.k8s.v1.Deployment.DeploymentStatus.fromObject(object.deploymentStatus);
                     }
+                    if (object.deploymentSpec != null) {
+                        if (typeof object.deploymentSpec !== "object")
+                            throw TypeError(".clutch.k8s.v1.Deployment.deploymentSpec: object expected");
+                        message.deploymentSpec = $root.clutch.k8s.v1.Deployment.DeploymentSpec.fromObject(object.deploymentSpec);
+                    }
                     if (object.creationTimeMillis != null)
                         if ($util.Long)
                             (message.creationTimeMillis = $util.Long.fromValue(object.creationTimeMillis)).unsigned = false;
@@ -39159,6 +39178,7 @@ export const clutch = $root.clutch = (() => {
                         object.namespace = "";
                         object.name = "";
                         object.deploymentStatus = null;
+                        object.deploymentSpec = null;
                         if ($util.Long) {
                             let long = new $util.Long(0, 0, false);
                             object.creationTimeMillis = options.longs === String ? long.toString() : options.longs === Number ? long.toNumber() : long;
@@ -39184,6 +39204,8 @@ export const clutch = $root.clutch = (() => {
                     }
                     if (message.deploymentStatus != null && message.hasOwnProperty("deploymentStatus"))
                         object.deploymentStatus = $root.clutch.k8s.v1.Deployment.DeploymentStatus.toObject(message.deploymentStatus, options);
+                    if (message.deploymentSpec != null && message.hasOwnProperty("deploymentSpec"))
+                        object.deploymentSpec = $root.clutch.k8s.v1.Deployment.DeploymentSpec.toObject(message.deploymentSpec, options);
                     if (message.creationTimeMillis != null && message.hasOwnProperty("creationTimeMillis"))
                         if (typeof message.creationTimeMillis === "number")
                             object.creationTimeMillis = options.longs === String ? String(message.creationTimeMillis) : message.creationTimeMillis;
@@ -39647,6 +39669,604 @@ export const clutch = $root.clutch = (() => {
                     })();
 
                     return DeploymentStatus;
+                })();
+
+                Deployment.DeploymentSpec = (function() {
+
+                    /**
+                     * Properties of a DeploymentSpec.
+                     * @memberof clutch.k8s.v1.Deployment
+                     * @interface IDeploymentSpec
+                     * @property {clutch.k8s.v1.Deployment.DeploymentSpec.IPodTemplateSpec|null} [template] DeploymentSpec template
+                     */
+
+                    /**
+                     * Constructs a new DeploymentSpec.
+                     * @memberof clutch.k8s.v1.Deployment
+                     * @classdesc Represents a DeploymentSpec.
+                     * @implements IDeploymentSpec
+                     * @constructor
+                     * @param {clutch.k8s.v1.Deployment.IDeploymentSpec=} [properties] Properties to set
+                     */
+                    function DeploymentSpec(properties) {
+                        if (properties)
+                            for (let keys = Object.keys(properties), i = 0; i < keys.length; ++i)
+                                if (properties[keys[i]] != null)
+                                    this[keys[i]] = properties[keys[i]];
+                    }
+
+                    /**
+                     * DeploymentSpec template.
+                     * @member {clutch.k8s.v1.Deployment.DeploymentSpec.IPodTemplateSpec|null|undefined} template
+                     * @memberof clutch.k8s.v1.Deployment.DeploymentSpec
+                     * @instance
+                     */
+                    DeploymentSpec.prototype.template = null;
+
+                    /**
+                     * Verifies a DeploymentSpec message.
+                     * @function verify
+                     * @memberof clutch.k8s.v1.Deployment.DeploymentSpec
+                     * @static
+                     * @param {Object.<string,*>} message Plain object to verify
+                     * @returns {string|null} `null` if valid, otherwise the reason why it is not
+                     */
+                    DeploymentSpec.verify = function verify(message) {
+                        if (typeof message !== "object" || message === null)
+                            return "object expected";
+                        if (message.template != null && message.hasOwnProperty("template")) {
+                            let error = $root.clutch.k8s.v1.Deployment.DeploymentSpec.PodTemplateSpec.verify(message.template);
+                            if (error)
+                                return "template." + error;
+                        }
+                        return null;
+                    };
+
+                    /**
+                     * Creates a DeploymentSpec message from a plain object. Also converts values to their respective internal types.
+                     * @function fromObject
+                     * @memberof clutch.k8s.v1.Deployment.DeploymentSpec
+                     * @static
+                     * @param {Object.<string,*>} object Plain object
+                     * @returns {clutch.k8s.v1.Deployment.DeploymentSpec} DeploymentSpec
+                     */
+                    DeploymentSpec.fromObject = function fromObject(object) {
+                        if (object instanceof $root.clutch.k8s.v1.Deployment.DeploymentSpec)
+                            return object;
+                        let message = new $root.clutch.k8s.v1.Deployment.DeploymentSpec();
+                        if (object.template != null) {
+                            if (typeof object.template !== "object")
+                                throw TypeError(".clutch.k8s.v1.Deployment.DeploymentSpec.template: object expected");
+                            message.template = $root.clutch.k8s.v1.Deployment.DeploymentSpec.PodTemplateSpec.fromObject(object.template);
+                        }
+                        return message;
+                    };
+
+                    /**
+                     * Creates a plain object from a DeploymentSpec message. Also converts values to other types if specified.
+                     * @function toObject
+                     * @memberof clutch.k8s.v1.Deployment.DeploymentSpec
+                     * @static
+                     * @param {clutch.k8s.v1.Deployment.DeploymentSpec} message DeploymentSpec
+                     * @param {$protobuf.IConversionOptions} [options] Conversion options
+                     * @returns {Object.<string,*>} Plain object
+                     */
+                    DeploymentSpec.toObject = function toObject(message, options) {
+                        if (!options)
+                            options = {};
+                        let object = {};
+                        if (options.defaults)
+                            object.template = null;
+                        if (message.template != null && message.hasOwnProperty("template"))
+                            object.template = $root.clutch.k8s.v1.Deployment.DeploymentSpec.PodTemplateSpec.toObject(message.template, options);
+                        return object;
+                    };
+
+                    /**
+                     * Converts this DeploymentSpec to JSON.
+                     * @function toJSON
+                     * @memberof clutch.k8s.v1.Deployment.DeploymentSpec
+                     * @instance
+                     * @returns {Object.<string,*>} JSON object
+                     */
+                    DeploymentSpec.prototype.toJSON = function toJSON() {
+                        return this.constructor.toObject(this, $protobuf.util.toJSONOptions);
+                    };
+
+                    DeploymentSpec.PodTemplateSpec = (function() {
+
+                        /**
+                         * Properties of a PodTemplateSpec.
+                         * @memberof clutch.k8s.v1.Deployment.DeploymentSpec
+                         * @interface IPodTemplateSpec
+                         * @property {clutch.k8s.v1.Deployment.DeploymentSpec.PodTemplateSpec.IPodSpec|null} [spec] PodTemplateSpec spec
+                         */
+
+                        /**
+                         * Constructs a new PodTemplateSpec.
+                         * @memberof clutch.k8s.v1.Deployment.DeploymentSpec
+                         * @classdesc Represents a PodTemplateSpec.
+                         * @implements IPodTemplateSpec
+                         * @constructor
+                         * @param {clutch.k8s.v1.Deployment.DeploymentSpec.IPodTemplateSpec=} [properties] Properties to set
+                         */
+                        function PodTemplateSpec(properties) {
+                            if (properties)
+                                for (let keys = Object.keys(properties), i = 0; i < keys.length; ++i)
+                                    if (properties[keys[i]] != null)
+                                        this[keys[i]] = properties[keys[i]];
+                        }
+
+                        /**
+                         * PodTemplateSpec spec.
+                         * @member {clutch.k8s.v1.Deployment.DeploymentSpec.PodTemplateSpec.IPodSpec|null|undefined} spec
+                         * @memberof clutch.k8s.v1.Deployment.DeploymentSpec.PodTemplateSpec
+                         * @instance
+                         */
+                        PodTemplateSpec.prototype.spec = null;
+
+                        /**
+                         * Verifies a PodTemplateSpec message.
+                         * @function verify
+                         * @memberof clutch.k8s.v1.Deployment.DeploymentSpec.PodTemplateSpec
+                         * @static
+                         * @param {Object.<string,*>} message Plain object to verify
+                         * @returns {string|null} `null` if valid, otherwise the reason why it is not
+                         */
+                        PodTemplateSpec.verify = function verify(message) {
+                            if (typeof message !== "object" || message === null)
+                                return "object expected";
+                            if (message.spec != null && message.hasOwnProperty("spec")) {
+                                let error = $root.clutch.k8s.v1.Deployment.DeploymentSpec.PodTemplateSpec.PodSpec.verify(message.spec);
+                                if (error)
+                                    return "spec." + error;
+                            }
+                            return null;
+                        };
+
+                        /**
+                         * Creates a PodTemplateSpec message from a plain object. Also converts values to their respective internal types.
+                         * @function fromObject
+                         * @memberof clutch.k8s.v1.Deployment.DeploymentSpec.PodTemplateSpec
+                         * @static
+                         * @param {Object.<string,*>} object Plain object
+                         * @returns {clutch.k8s.v1.Deployment.DeploymentSpec.PodTemplateSpec} PodTemplateSpec
+                         */
+                        PodTemplateSpec.fromObject = function fromObject(object) {
+                            if (object instanceof $root.clutch.k8s.v1.Deployment.DeploymentSpec.PodTemplateSpec)
+                                return object;
+                            let message = new $root.clutch.k8s.v1.Deployment.DeploymentSpec.PodTemplateSpec();
+                            if (object.spec != null) {
+                                if (typeof object.spec !== "object")
+                                    throw TypeError(".clutch.k8s.v1.Deployment.DeploymentSpec.PodTemplateSpec.spec: object expected");
+                                message.spec = $root.clutch.k8s.v1.Deployment.DeploymentSpec.PodTemplateSpec.PodSpec.fromObject(object.spec);
+                            }
+                            return message;
+                        };
+
+                        /**
+                         * Creates a plain object from a PodTemplateSpec message. Also converts values to other types if specified.
+                         * @function toObject
+                         * @memberof clutch.k8s.v1.Deployment.DeploymentSpec.PodTemplateSpec
+                         * @static
+                         * @param {clutch.k8s.v1.Deployment.DeploymentSpec.PodTemplateSpec} message PodTemplateSpec
+                         * @param {$protobuf.IConversionOptions} [options] Conversion options
+                         * @returns {Object.<string,*>} Plain object
+                         */
+                        PodTemplateSpec.toObject = function toObject(message, options) {
+                            if (!options)
+                                options = {};
+                            let object = {};
+                            if (options.defaults)
+                                object.spec = null;
+                            if (message.spec != null && message.hasOwnProperty("spec"))
+                                object.spec = $root.clutch.k8s.v1.Deployment.DeploymentSpec.PodTemplateSpec.PodSpec.toObject(message.spec, options);
+                            return object;
+                        };
+
+                        /**
+                         * Converts this PodTemplateSpec to JSON.
+                         * @function toJSON
+                         * @memberof clutch.k8s.v1.Deployment.DeploymentSpec.PodTemplateSpec
+                         * @instance
+                         * @returns {Object.<string,*>} JSON object
+                         */
+                        PodTemplateSpec.prototype.toJSON = function toJSON() {
+                            return this.constructor.toObject(this, $protobuf.util.toJSONOptions);
+                        };
+
+                        PodTemplateSpec.PodSpec = (function() {
+
+                            /**
+                             * Properties of a PodSpec.
+                             * @memberof clutch.k8s.v1.Deployment.DeploymentSpec.PodTemplateSpec
+                             * @interface IPodSpec
+                             * @property {Array.<clutch.k8s.v1.Deployment.DeploymentSpec.PodTemplateSpec.PodSpec.IContainer>|null} [containers] PodSpec containers
+                             */
+
+                            /**
+                             * Constructs a new PodSpec.
+                             * @memberof clutch.k8s.v1.Deployment.DeploymentSpec.PodTemplateSpec
+                             * @classdesc Represents a PodSpec.
+                             * @implements IPodSpec
+                             * @constructor
+                             * @param {clutch.k8s.v1.Deployment.DeploymentSpec.PodTemplateSpec.IPodSpec=} [properties] Properties to set
+                             */
+                            function PodSpec(properties) {
+                                this.containers = [];
+                                if (properties)
+                                    for (let keys = Object.keys(properties), i = 0; i < keys.length; ++i)
+                                        if (properties[keys[i]] != null)
+                                            this[keys[i]] = properties[keys[i]];
+                            }
+
+                            /**
+                             * PodSpec containers.
+                             * @member {Array.<clutch.k8s.v1.Deployment.DeploymentSpec.PodTemplateSpec.PodSpec.IContainer>} containers
+                             * @memberof clutch.k8s.v1.Deployment.DeploymentSpec.PodTemplateSpec.PodSpec
+                             * @instance
+                             */
+                            PodSpec.prototype.containers = $util.emptyArray;
+
+                            /**
+                             * Verifies a PodSpec message.
+                             * @function verify
+                             * @memberof clutch.k8s.v1.Deployment.DeploymentSpec.PodTemplateSpec.PodSpec
+                             * @static
+                             * @param {Object.<string,*>} message Plain object to verify
+                             * @returns {string|null} `null` if valid, otherwise the reason why it is not
+                             */
+                            PodSpec.verify = function verify(message) {
+                                if (typeof message !== "object" || message === null)
+                                    return "object expected";
+                                if (message.containers != null && message.hasOwnProperty("containers")) {
+                                    if (!Array.isArray(message.containers))
+                                        return "containers: array expected";
+                                    for (let i = 0; i < message.containers.length; ++i) {
+                                        let error = $root.clutch.k8s.v1.Deployment.DeploymentSpec.PodTemplateSpec.PodSpec.Container.verify(message.containers[i]);
+                                        if (error)
+                                            return "containers." + error;
+                                    }
+                                }
+                                return null;
+                            };
+
+                            /**
+                             * Creates a PodSpec message from a plain object. Also converts values to their respective internal types.
+                             * @function fromObject
+                             * @memberof clutch.k8s.v1.Deployment.DeploymentSpec.PodTemplateSpec.PodSpec
+                             * @static
+                             * @param {Object.<string,*>} object Plain object
+                             * @returns {clutch.k8s.v1.Deployment.DeploymentSpec.PodTemplateSpec.PodSpec} PodSpec
+                             */
+                            PodSpec.fromObject = function fromObject(object) {
+                                if (object instanceof $root.clutch.k8s.v1.Deployment.DeploymentSpec.PodTemplateSpec.PodSpec)
+                                    return object;
+                                let message = new $root.clutch.k8s.v1.Deployment.DeploymentSpec.PodTemplateSpec.PodSpec();
+                                if (object.containers) {
+                                    if (!Array.isArray(object.containers))
+                                        throw TypeError(".clutch.k8s.v1.Deployment.DeploymentSpec.PodTemplateSpec.PodSpec.containers: array expected");
+                                    message.containers = [];
+                                    for (let i = 0; i < object.containers.length; ++i) {
+                                        if (typeof object.containers[i] !== "object")
+                                            throw TypeError(".clutch.k8s.v1.Deployment.DeploymentSpec.PodTemplateSpec.PodSpec.containers: object expected");
+                                        message.containers[i] = $root.clutch.k8s.v1.Deployment.DeploymentSpec.PodTemplateSpec.PodSpec.Container.fromObject(object.containers[i]);
+                                    }
+                                }
+                                return message;
+                            };
+
+                            /**
+                             * Creates a plain object from a PodSpec message. Also converts values to other types if specified.
+                             * @function toObject
+                             * @memberof clutch.k8s.v1.Deployment.DeploymentSpec.PodTemplateSpec.PodSpec
+                             * @static
+                             * @param {clutch.k8s.v1.Deployment.DeploymentSpec.PodTemplateSpec.PodSpec} message PodSpec
+                             * @param {$protobuf.IConversionOptions} [options] Conversion options
+                             * @returns {Object.<string,*>} Plain object
+                             */
+                            PodSpec.toObject = function toObject(message, options) {
+                                if (!options)
+                                    options = {};
+                                let object = {};
+                                if (options.arrays || options.defaults)
+                                    object.containers = [];
+                                if (message.containers && message.containers.length) {
+                                    object.containers = [];
+                                    for (let j = 0; j < message.containers.length; ++j)
+                                        object.containers[j] = $root.clutch.k8s.v1.Deployment.DeploymentSpec.PodTemplateSpec.PodSpec.Container.toObject(message.containers[j], options);
+                                }
+                                return object;
+                            };
+
+                            /**
+                             * Converts this PodSpec to JSON.
+                             * @function toJSON
+                             * @memberof clutch.k8s.v1.Deployment.DeploymentSpec.PodTemplateSpec.PodSpec
+                             * @instance
+                             * @returns {Object.<string,*>} JSON object
+                             */
+                            PodSpec.prototype.toJSON = function toJSON() {
+                                return this.constructor.toObject(this, $protobuf.util.toJSONOptions);
+                            };
+
+                            PodSpec.Container = (function() {
+
+                                /**
+                                 * Properties of a Container.
+                                 * @memberof clutch.k8s.v1.Deployment.DeploymentSpec.PodTemplateSpec.PodSpec
+                                 * @interface IContainer
+                                 * @property {string|null} [name] Container name
+                                 * @property {clutch.k8s.v1.Deployment.DeploymentSpec.PodTemplateSpec.PodSpec.Container.IResourceRequirements|null} [resources] Container resources
+                                 */
+
+                                /**
+                                 * Constructs a new Container.
+                                 * @memberof clutch.k8s.v1.Deployment.DeploymentSpec.PodTemplateSpec.PodSpec
+                                 * @classdesc Represents a Container.
+                                 * @implements IContainer
+                                 * @constructor
+                                 * @param {clutch.k8s.v1.Deployment.DeploymentSpec.PodTemplateSpec.PodSpec.IContainer=} [properties] Properties to set
+                                 */
+                                function Container(properties) {
+                                    if (properties)
+                                        for (let keys = Object.keys(properties), i = 0; i < keys.length; ++i)
+                                            if (properties[keys[i]] != null)
+                                                this[keys[i]] = properties[keys[i]];
+                                }
+
+                                /**
+                                 * Container name.
+                                 * @member {string} name
+                                 * @memberof clutch.k8s.v1.Deployment.DeploymentSpec.PodTemplateSpec.PodSpec.Container
+                                 * @instance
+                                 */
+                                Container.prototype.name = "";
+
+                                /**
+                                 * Container resources.
+                                 * @member {clutch.k8s.v1.Deployment.DeploymentSpec.PodTemplateSpec.PodSpec.Container.IResourceRequirements|null|undefined} resources
+                                 * @memberof clutch.k8s.v1.Deployment.DeploymentSpec.PodTemplateSpec.PodSpec.Container
+                                 * @instance
+                                 */
+                                Container.prototype.resources = null;
+
+                                /**
+                                 * Verifies a Container message.
+                                 * @function verify
+                                 * @memberof clutch.k8s.v1.Deployment.DeploymentSpec.PodTemplateSpec.PodSpec.Container
+                                 * @static
+                                 * @param {Object.<string,*>} message Plain object to verify
+                                 * @returns {string|null} `null` if valid, otherwise the reason why it is not
+                                 */
+                                Container.verify = function verify(message) {
+                                    if (typeof message !== "object" || message === null)
+                                        return "object expected";
+                                    if (message.name != null && message.hasOwnProperty("name"))
+                                        if (!$util.isString(message.name))
+                                            return "name: string expected";
+                                    if (message.resources != null && message.hasOwnProperty("resources")) {
+                                        let error = $root.clutch.k8s.v1.Deployment.DeploymentSpec.PodTemplateSpec.PodSpec.Container.ResourceRequirements.verify(message.resources);
+                                        if (error)
+                                            return "resources." + error;
+                                    }
+                                    return null;
+                                };
+
+                                /**
+                                 * Creates a Container message from a plain object. Also converts values to their respective internal types.
+                                 * @function fromObject
+                                 * @memberof clutch.k8s.v1.Deployment.DeploymentSpec.PodTemplateSpec.PodSpec.Container
+                                 * @static
+                                 * @param {Object.<string,*>} object Plain object
+                                 * @returns {clutch.k8s.v1.Deployment.DeploymentSpec.PodTemplateSpec.PodSpec.Container} Container
+                                 */
+                                Container.fromObject = function fromObject(object) {
+                                    if (object instanceof $root.clutch.k8s.v1.Deployment.DeploymentSpec.PodTemplateSpec.PodSpec.Container)
+                                        return object;
+                                    let message = new $root.clutch.k8s.v1.Deployment.DeploymentSpec.PodTemplateSpec.PodSpec.Container();
+                                    if (object.name != null)
+                                        message.name = String(object.name);
+                                    if (object.resources != null) {
+                                        if (typeof object.resources !== "object")
+                                            throw TypeError(".clutch.k8s.v1.Deployment.DeploymentSpec.PodTemplateSpec.PodSpec.Container.resources: object expected");
+                                        message.resources = $root.clutch.k8s.v1.Deployment.DeploymentSpec.PodTemplateSpec.PodSpec.Container.ResourceRequirements.fromObject(object.resources);
+                                    }
+                                    return message;
+                                };
+
+                                /**
+                                 * Creates a plain object from a Container message. Also converts values to other types if specified.
+                                 * @function toObject
+                                 * @memberof clutch.k8s.v1.Deployment.DeploymentSpec.PodTemplateSpec.PodSpec.Container
+                                 * @static
+                                 * @param {clutch.k8s.v1.Deployment.DeploymentSpec.PodTemplateSpec.PodSpec.Container} message Container
+                                 * @param {$protobuf.IConversionOptions} [options] Conversion options
+                                 * @returns {Object.<string,*>} Plain object
+                                 */
+                                Container.toObject = function toObject(message, options) {
+                                    if (!options)
+                                        options = {};
+                                    let object = {};
+                                    if (options.defaults) {
+                                        object.name = "";
+                                        object.resources = null;
+                                    }
+                                    if (message.name != null && message.hasOwnProperty("name"))
+                                        object.name = message.name;
+                                    if (message.resources != null && message.hasOwnProperty("resources"))
+                                        object.resources = $root.clutch.k8s.v1.Deployment.DeploymentSpec.PodTemplateSpec.PodSpec.Container.ResourceRequirements.toObject(message.resources, options);
+                                    return object;
+                                };
+
+                                /**
+                                 * Converts this Container to JSON.
+                                 * @function toJSON
+                                 * @memberof clutch.k8s.v1.Deployment.DeploymentSpec.PodTemplateSpec.PodSpec.Container
+                                 * @instance
+                                 * @returns {Object.<string,*>} JSON object
+                                 */
+                                Container.prototype.toJSON = function toJSON() {
+                                    return this.constructor.toObject(this, $protobuf.util.toJSONOptions);
+                                };
+
+                                Container.ResourceRequirements = (function() {
+
+                                    /**
+                                     * Properties of a ResourceRequirements.
+                                     * @memberof clutch.k8s.v1.Deployment.DeploymentSpec.PodTemplateSpec.PodSpec.Container
+                                     * @interface IResourceRequirements
+                                     * @property {Object.<string,string>|null} [Limits] ResourceRequirements Limits
+                                     * @property {Object.<string,string>|null} [Requests] ResourceRequirements Requests
+                                     */
+
+                                    /**
+                                     * Constructs a new ResourceRequirements.
+                                     * @memberof clutch.k8s.v1.Deployment.DeploymentSpec.PodTemplateSpec.PodSpec.Container
+                                     * @classdesc Represents a ResourceRequirements.
+                                     * @implements IResourceRequirements
+                                     * @constructor
+                                     * @param {clutch.k8s.v1.Deployment.DeploymentSpec.PodTemplateSpec.PodSpec.Container.IResourceRequirements=} [properties] Properties to set
+                                     */
+                                    function ResourceRequirements(properties) {
+                                        this.Limits = {};
+                                        this.Requests = {};
+                                        if (properties)
+                                            for (let keys = Object.keys(properties), i = 0; i < keys.length; ++i)
+                                                if (properties[keys[i]] != null)
+                                                    this[keys[i]] = properties[keys[i]];
+                                    }
+
+                                    /**
+                                     * ResourceRequirements Limits.
+                                     * @member {Object.<string,string>} Limits
+                                     * @memberof clutch.k8s.v1.Deployment.DeploymentSpec.PodTemplateSpec.PodSpec.Container.ResourceRequirements
+                                     * @instance
+                                     */
+                                    ResourceRequirements.prototype.Limits = $util.emptyObject;
+
+                                    /**
+                                     * ResourceRequirements Requests.
+                                     * @member {Object.<string,string>} Requests
+                                     * @memberof clutch.k8s.v1.Deployment.DeploymentSpec.PodTemplateSpec.PodSpec.Container.ResourceRequirements
+                                     * @instance
+                                     */
+                                    ResourceRequirements.prototype.Requests = $util.emptyObject;
+
+                                    /**
+                                     * Verifies a ResourceRequirements message.
+                                     * @function verify
+                                     * @memberof clutch.k8s.v1.Deployment.DeploymentSpec.PodTemplateSpec.PodSpec.Container.ResourceRequirements
+                                     * @static
+                                     * @param {Object.<string,*>} message Plain object to verify
+                                     * @returns {string|null} `null` if valid, otherwise the reason why it is not
+                                     */
+                                    ResourceRequirements.verify = function verify(message) {
+                                        if (typeof message !== "object" || message === null)
+                                            return "object expected";
+                                        if (message.Limits != null && message.hasOwnProperty("Limits")) {
+                                            if (!$util.isObject(message.Limits))
+                                                return "Limits: object expected";
+                                            let key = Object.keys(message.Limits);
+                                            for (let i = 0; i < key.length; ++i)
+                                                if (!$util.isString(message.Limits[key[i]]))
+                                                    return "Limits: string{k:string} expected";
+                                        }
+                                        if (message.Requests != null && message.hasOwnProperty("Requests")) {
+                                            if (!$util.isObject(message.Requests))
+                                                return "Requests: object expected";
+                                            let key = Object.keys(message.Requests);
+                                            for (let i = 0; i < key.length; ++i)
+                                                if (!$util.isString(message.Requests[key[i]]))
+                                                    return "Requests: string{k:string} expected";
+                                        }
+                                        return null;
+                                    };
+
+                                    /**
+                                     * Creates a ResourceRequirements message from a plain object. Also converts values to their respective internal types.
+                                     * @function fromObject
+                                     * @memberof clutch.k8s.v1.Deployment.DeploymentSpec.PodTemplateSpec.PodSpec.Container.ResourceRequirements
+                                     * @static
+                                     * @param {Object.<string,*>} object Plain object
+                                     * @returns {clutch.k8s.v1.Deployment.DeploymentSpec.PodTemplateSpec.PodSpec.Container.ResourceRequirements} ResourceRequirements
+                                     */
+                                    ResourceRequirements.fromObject = function fromObject(object) {
+                                        if (object instanceof $root.clutch.k8s.v1.Deployment.DeploymentSpec.PodTemplateSpec.PodSpec.Container.ResourceRequirements)
+                                            return object;
+                                        let message = new $root.clutch.k8s.v1.Deployment.DeploymentSpec.PodTemplateSpec.PodSpec.Container.ResourceRequirements();
+                                        if (object.Limits) {
+                                            if (typeof object.Limits !== "object")
+                                                throw TypeError(".clutch.k8s.v1.Deployment.DeploymentSpec.PodTemplateSpec.PodSpec.Container.ResourceRequirements.Limits: object expected");
+                                            message.Limits = {};
+                                            for (let keys = Object.keys(object.Limits), i = 0; i < keys.length; ++i)
+                                                message.Limits[keys[i]] = String(object.Limits[keys[i]]);
+                                        }
+                                        if (object.Requests) {
+                                            if (typeof object.Requests !== "object")
+                                                throw TypeError(".clutch.k8s.v1.Deployment.DeploymentSpec.PodTemplateSpec.PodSpec.Container.ResourceRequirements.Requests: object expected");
+                                            message.Requests = {};
+                                            for (let keys = Object.keys(object.Requests), i = 0; i < keys.length; ++i)
+                                                message.Requests[keys[i]] = String(object.Requests[keys[i]]);
+                                        }
+                                        return message;
+                                    };
+
+                                    /**
+                                     * Creates a plain object from a ResourceRequirements message. Also converts values to other types if specified.
+                                     * @function toObject
+                                     * @memberof clutch.k8s.v1.Deployment.DeploymentSpec.PodTemplateSpec.PodSpec.Container.ResourceRequirements
+                                     * @static
+                                     * @param {clutch.k8s.v1.Deployment.DeploymentSpec.PodTemplateSpec.PodSpec.Container.ResourceRequirements} message ResourceRequirements
+                                     * @param {$protobuf.IConversionOptions} [options] Conversion options
+                                     * @returns {Object.<string,*>} Plain object
+                                     */
+                                    ResourceRequirements.toObject = function toObject(message, options) {
+                                        if (!options)
+                                            options = {};
+                                        let object = {};
+                                        if (options.objects || options.defaults) {
+                                            object.Limits = {};
+                                            object.Requests = {};
+                                        }
+                                        let keys2;
+                                        if (message.Limits && (keys2 = Object.keys(message.Limits)).length) {
+                                            object.Limits = {};
+                                            for (let j = 0; j < keys2.length; ++j)
+                                                object.Limits[keys2[j]] = message.Limits[keys2[j]];
+                                        }
+                                        if (message.Requests && (keys2 = Object.keys(message.Requests)).length) {
+                                            object.Requests = {};
+                                            for (let j = 0; j < keys2.length; ++j)
+                                                object.Requests[keys2[j]] = message.Requests[keys2[j]];
+                                        }
+                                        return object;
+                                    };
+
+                                    /**
+                                     * Converts this ResourceRequirements to JSON.
+                                     * @function toJSON
+                                     * @memberof clutch.k8s.v1.Deployment.DeploymentSpec.PodTemplateSpec.PodSpec.Container.ResourceRequirements
+                                     * @instance
+                                     * @returns {Object.<string,*>} JSON object
+                                     */
+                                    ResourceRequirements.prototype.toJSON = function toJSON() {
+                                        return this.constructor.toObject(this, $protobuf.util.toJSONOptions);
+                                    };
+
+                                    return ResourceRequirements;
+                                })();
+
+                                return Container;
+                            })();
+
+                            return PodSpec;
+                        })();
+
+                        return PodTemplateSpec;
+                    })();
+
+                    return DeploymentSpec;
                 })();
 
                 return Deployment;

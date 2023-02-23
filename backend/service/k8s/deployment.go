@@ -74,6 +74,7 @@ func ProtoForDeployment(cluster string, deployment *appsv1.Deployment) *k8sapiv1
 		Name:             deployment.Name,
 		Labels:           deployment.Labels,
 		Annotations:      deployment.Annotations,
+		DeploymentSpec:   ProtoForDeploymentSpec(deployment.Spec),
 		DeploymentStatus: ProtoForDeploymentStatus(deployment.Status),
 	}
 
@@ -83,6 +84,23 @@ func ProtoForDeployment(cluster string, deployment *appsv1.Deployment) *k8sapiv1
 	}
 
 	return k8sDeployment
+}
+
+func ProtoForDeploymentSpec(deploymentSpec appsv1.DeploymentSpec) *k8sapiv1.Deployment_DeploymentSpec {
+	var deploymentContainers []*k8sapiv1.Deployment_DeploymentSpec_PodTemplateSpec_PodSpec_Container
+	for _, container := range deploymentSpec.Template.Spec.Containers {
+		newContainer := &k8sapiv1.Deployment_DeploymentSpec_PodTemplateSpec_PodSpec_Container{
+			Name: container.Name,
+		}
+		deploymentContainers = append(deploymentContainers, newContainer)
+	}
+	return &k8sapiv1.Deployment_DeploymentSpec{
+		Template: &k8sapiv1.Deployment_DeploymentSpec_PodTemplateSpec{
+			Spec: &k8sapiv1.Deployment_DeploymentSpec_PodTemplateSpec_PodSpec{
+				Containers: deploymentContainers,
+			},
+		},
+	}
 }
 
 func ProtoForDeploymentStatus(deploymentStatus appsv1.DeploymentStatus) *k8sapiv1.Deployment_DeploymentStatus {

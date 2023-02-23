@@ -16309,6 +16309,9 @@ export namespace clutch {
                 /** Deployment deploymentStatus */
                 deploymentStatus?: (clutch.k8s.v1.Deployment.IDeploymentStatus|null);
 
+                /** Deployment deploymentSpec */
+                deploymentSpec?: (clutch.k8s.v1.Deployment.IDeploymentSpec|null);
+
                 /** Deployment creationTimeMillis */
                 creationTimeMillis?: (number|Long|null);
             }
@@ -16339,6 +16342,9 @@ export namespace clutch {
 
                 /** Deployment deploymentStatus. */
                 public deploymentStatus?: (clutch.k8s.v1.Deployment.IDeploymentStatus|null);
+
+                /** Deployment deploymentSpec. */
+                public deploymentSpec?: (clutch.k8s.v1.Deployment.IDeploymentSpec|null);
 
                 /** Deployment creationTimeMillis. */
                 public creationTimeMillis: (number|Long);
@@ -16537,6 +16543,270 @@ export namespace clutch {
                             CONDITION_TRUE = 1,
                             CONDITION_FALSE = 2,
                             CONDITION_UNKNOWN = 3
+                        }
+                    }
+                }
+
+                /** Properties of a DeploymentSpec. */
+                interface IDeploymentSpec {
+
+                    /** DeploymentSpec template */
+                    template?: (clutch.k8s.v1.Deployment.DeploymentSpec.IPodTemplateSpec|null);
+                }
+
+                /** Represents a DeploymentSpec. */
+                class DeploymentSpec implements IDeploymentSpec {
+
+                    /**
+                     * Constructs a new DeploymentSpec.
+                     * @param [properties] Properties to set
+                     */
+                    constructor(properties?: clutch.k8s.v1.Deployment.IDeploymentSpec);
+
+                    /** DeploymentSpec template. */
+                    public template?: (clutch.k8s.v1.Deployment.DeploymentSpec.IPodTemplateSpec|null);
+
+                    /**
+                     * Verifies a DeploymentSpec message.
+                     * @param message Plain object to verify
+                     * @returns `null` if valid, otherwise the reason why it is not
+                     */
+                    public static verify(message: { [k: string]: any }): (string|null);
+
+                    /**
+                     * Creates a DeploymentSpec message from a plain object. Also converts values to their respective internal types.
+                     * @param object Plain object
+                     * @returns DeploymentSpec
+                     */
+                    public static fromObject(object: { [k: string]: any }): clutch.k8s.v1.Deployment.DeploymentSpec;
+
+                    /**
+                     * Creates a plain object from a DeploymentSpec message. Also converts values to other types if specified.
+                     * @param message DeploymentSpec
+                     * @param [options] Conversion options
+                     * @returns Plain object
+                     */
+                    public static toObject(message: clutch.k8s.v1.Deployment.DeploymentSpec, options?: $protobuf.IConversionOptions): { [k: string]: any };
+
+                    /**
+                     * Converts this DeploymentSpec to JSON.
+                     * @returns JSON object
+                     */
+                    public toJSON(): { [k: string]: any };
+                }
+
+                namespace DeploymentSpec {
+
+                    /** Properties of a PodTemplateSpec. */
+                    interface IPodTemplateSpec {
+
+                        /** PodTemplateSpec spec */
+                        spec?: (clutch.k8s.v1.Deployment.DeploymentSpec.PodTemplateSpec.IPodSpec|null);
+                    }
+
+                    /** Represents a PodTemplateSpec. */
+                    class PodTemplateSpec implements IPodTemplateSpec {
+
+                        /**
+                         * Constructs a new PodTemplateSpec.
+                         * @param [properties] Properties to set
+                         */
+                        constructor(properties?: clutch.k8s.v1.Deployment.DeploymentSpec.IPodTemplateSpec);
+
+                        /** PodTemplateSpec spec. */
+                        public spec?: (clutch.k8s.v1.Deployment.DeploymentSpec.PodTemplateSpec.IPodSpec|null);
+
+                        /**
+                         * Verifies a PodTemplateSpec message.
+                         * @param message Plain object to verify
+                         * @returns `null` if valid, otherwise the reason why it is not
+                         */
+                        public static verify(message: { [k: string]: any }): (string|null);
+
+                        /**
+                         * Creates a PodTemplateSpec message from a plain object. Also converts values to their respective internal types.
+                         * @param object Plain object
+                         * @returns PodTemplateSpec
+                         */
+                        public static fromObject(object: { [k: string]: any }): clutch.k8s.v1.Deployment.DeploymentSpec.PodTemplateSpec;
+
+                        /**
+                         * Creates a plain object from a PodTemplateSpec message. Also converts values to other types if specified.
+                         * @param message PodTemplateSpec
+                         * @param [options] Conversion options
+                         * @returns Plain object
+                         */
+                        public static toObject(message: clutch.k8s.v1.Deployment.DeploymentSpec.PodTemplateSpec, options?: $protobuf.IConversionOptions): { [k: string]: any };
+
+                        /**
+                         * Converts this PodTemplateSpec to JSON.
+                         * @returns JSON object
+                         */
+                        public toJSON(): { [k: string]: any };
+                    }
+
+                    namespace PodTemplateSpec {
+
+                        /** Properties of a PodSpec. */
+                        interface IPodSpec {
+
+                            /** PodSpec containers */
+                            containers?: (clutch.k8s.v1.Deployment.DeploymentSpec.PodTemplateSpec.PodSpec.IContainer[]|null);
+                        }
+
+                        /** Represents a PodSpec. */
+                        class PodSpec implements IPodSpec {
+
+                            /**
+                             * Constructs a new PodSpec.
+                             * @param [properties] Properties to set
+                             */
+                            constructor(properties?: clutch.k8s.v1.Deployment.DeploymentSpec.PodTemplateSpec.IPodSpec);
+
+                            /** PodSpec containers. */
+                            public containers: clutch.k8s.v1.Deployment.DeploymentSpec.PodTemplateSpec.PodSpec.IContainer[];
+
+                            /**
+                             * Verifies a PodSpec message.
+                             * @param message Plain object to verify
+                             * @returns `null` if valid, otherwise the reason why it is not
+                             */
+                            public static verify(message: { [k: string]: any }): (string|null);
+
+                            /**
+                             * Creates a PodSpec message from a plain object. Also converts values to their respective internal types.
+                             * @param object Plain object
+                             * @returns PodSpec
+                             */
+                            public static fromObject(object: { [k: string]: any }): clutch.k8s.v1.Deployment.DeploymentSpec.PodTemplateSpec.PodSpec;
+
+                            /**
+                             * Creates a plain object from a PodSpec message. Also converts values to other types if specified.
+                             * @param message PodSpec
+                             * @param [options] Conversion options
+                             * @returns Plain object
+                             */
+                            public static toObject(message: clutch.k8s.v1.Deployment.DeploymentSpec.PodTemplateSpec.PodSpec, options?: $protobuf.IConversionOptions): { [k: string]: any };
+
+                            /**
+                             * Converts this PodSpec to JSON.
+                             * @returns JSON object
+                             */
+                            public toJSON(): { [k: string]: any };
+                        }
+
+                        namespace PodSpec {
+
+                            /** Properties of a Container. */
+                            interface IContainer {
+
+                                /** Container name */
+                                name?: (string|null);
+
+                                /** Container resources */
+                                resources?: (clutch.k8s.v1.Deployment.DeploymentSpec.PodTemplateSpec.PodSpec.Container.IResourceRequirements|null);
+                            }
+
+                            /** Represents a Container. */
+                            class Container implements IContainer {
+
+                                /**
+                                 * Constructs a new Container.
+                                 * @param [properties] Properties to set
+                                 */
+                                constructor(properties?: clutch.k8s.v1.Deployment.DeploymentSpec.PodTemplateSpec.PodSpec.IContainer);
+
+                                /** Container name. */
+                                public name: string;
+
+                                /** Container resources. */
+                                public resources?: (clutch.k8s.v1.Deployment.DeploymentSpec.PodTemplateSpec.PodSpec.Container.IResourceRequirements|null);
+
+                                /**
+                                 * Verifies a Container message.
+                                 * @param message Plain object to verify
+                                 * @returns `null` if valid, otherwise the reason why it is not
+                                 */
+                                public static verify(message: { [k: string]: any }): (string|null);
+
+                                /**
+                                 * Creates a Container message from a plain object. Also converts values to their respective internal types.
+                                 * @param object Plain object
+                                 * @returns Container
+                                 */
+                                public static fromObject(object: { [k: string]: any }): clutch.k8s.v1.Deployment.DeploymentSpec.PodTemplateSpec.PodSpec.Container;
+
+                                /**
+                                 * Creates a plain object from a Container message. Also converts values to other types if specified.
+                                 * @param message Container
+                                 * @param [options] Conversion options
+                                 * @returns Plain object
+                                 */
+                                public static toObject(message: clutch.k8s.v1.Deployment.DeploymentSpec.PodTemplateSpec.PodSpec.Container, options?: $protobuf.IConversionOptions): { [k: string]: any };
+
+                                /**
+                                 * Converts this Container to JSON.
+                                 * @returns JSON object
+                                 */
+                                public toJSON(): { [k: string]: any };
+                            }
+
+                            namespace Container {
+
+                                /** Properties of a ResourceRequirements. */
+                                interface IResourceRequirements {
+
+                                    /** ResourceRequirements Limits */
+                                    Limits?: ({ [k: string]: string }|null);
+
+                                    /** ResourceRequirements Requests */
+                                    Requests?: ({ [k: string]: string }|null);
+                                }
+
+                                /** Represents a ResourceRequirements. */
+                                class ResourceRequirements implements IResourceRequirements {
+
+                                    /**
+                                     * Constructs a new ResourceRequirements.
+                                     * @param [properties] Properties to set
+                                     */
+                                    constructor(properties?: clutch.k8s.v1.Deployment.DeploymentSpec.PodTemplateSpec.PodSpec.Container.IResourceRequirements);
+
+                                    /** ResourceRequirements Limits. */
+                                    public Limits: { [k: string]: string };
+
+                                    /** ResourceRequirements Requests. */
+                                    public Requests: { [k: string]: string };
+
+                                    /**
+                                     * Verifies a ResourceRequirements message.
+                                     * @param message Plain object to verify
+                                     * @returns `null` if valid, otherwise the reason why it is not
+                                     */
+                                    public static verify(message: { [k: string]: any }): (string|null);
+
+                                    /**
+                                     * Creates a ResourceRequirements message from a plain object. Also converts values to their respective internal types.
+                                     * @param object Plain object
+                                     * @returns ResourceRequirements
+                                     */
+                                    public static fromObject(object: { [k: string]: any }): clutch.k8s.v1.Deployment.DeploymentSpec.PodTemplateSpec.PodSpec.Container.ResourceRequirements;
+
+                                    /**
+                                     * Creates a plain object from a ResourceRequirements message. Also converts values to other types if specified.
+                                     * @param message ResourceRequirements
+                                     * @param [options] Conversion options
+                                     * @returns Plain object
+                                     */
+                                    public static toObject(message: clutch.k8s.v1.Deployment.DeploymentSpec.PodTemplateSpec.PodSpec.Container.ResourceRequirements, options?: $protobuf.IConversionOptions): { [k: string]: any };
+
+                                    /**
+                                     * Converts this ResourceRequirements to JSON.
+                                     * @returns JSON object
+                                     */
+                                    public toJSON(): { [k: string]: any };
+                                }
+                            }
                         }
                     }
                 }
