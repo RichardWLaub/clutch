@@ -40116,8 +40116,8 @@ export const clutch = $root.clutch = (() => {
                                      * Properties of a ResourceRequirements.
                                      * @memberof clutch.k8s.v1.Deployment.DeploymentSpec.PodTemplateSpec.PodSpec.Container
                                      * @interface IResourceRequirements
-                                     * @property {Object.<string,string>|null} [Limits] ResourceRequirements Limits
-                                     * @property {Object.<string,string>|null} [Requests] ResourceRequirements Requests
+                                     * @property {Object.<string,string>|null} [limits] ResourceRequirements limits
+                                     * @property {Object.<string,string>|null} [requests] ResourceRequirements requests
                                      */
 
                                     /**
@@ -40129,8 +40129,8 @@ export const clutch = $root.clutch = (() => {
                                      * @param {clutch.k8s.v1.Deployment.DeploymentSpec.PodTemplateSpec.PodSpec.Container.IResourceRequirements=} [properties] Properties to set
                                      */
                                     function ResourceRequirements(properties) {
-                                        this.Limits = {};
-                                        this.Requests = {};
+                                        this.limits = {};
+                                        this.requests = {};
                                         if (properties)
                                             for (let keys = Object.keys(properties), i = 0; i < keys.length; ++i)
                                                 if (properties[keys[i]] != null)
@@ -40138,20 +40138,20 @@ export const clutch = $root.clutch = (() => {
                                     }
 
                                     /**
-                                     * ResourceRequirements Limits.
-                                     * @member {Object.<string,string>} Limits
+                                     * ResourceRequirements limits.
+                                     * @member {Object.<string,string>} limits
                                      * @memberof clutch.k8s.v1.Deployment.DeploymentSpec.PodTemplateSpec.PodSpec.Container.ResourceRequirements
                                      * @instance
                                      */
-                                    ResourceRequirements.prototype.Limits = $util.emptyObject;
+                                    ResourceRequirements.prototype.limits = $util.emptyObject;
 
                                     /**
-                                     * ResourceRequirements Requests.
-                                     * @member {Object.<string,string>} Requests
+                                     * ResourceRequirements requests.
+                                     * @member {Object.<string,string>} requests
                                      * @memberof clutch.k8s.v1.Deployment.DeploymentSpec.PodTemplateSpec.PodSpec.Container.ResourceRequirements
                                      * @instance
                                      */
-                                    ResourceRequirements.prototype.Requests = $util.emptyObject;
+                                    ResourceRequirements.prototype.requests = $util.emptyObject;
 
                                     /**
                                      * Verifies a ResourceRequirements message.
@@ -40164,21 +40164,21 @@ export const clutch = $root.clutch = (() => {
                                     ResourceRequirements.verify = function verify(message) {
                                         if (typeof message !== "object" || message === null)
                                             return "object expected";
-                                        if (message.Limits != null && message.hasOwnProperty("Limits")) {
-                                            if (!$util.isObject(message.Limits))
-                                                return "Limits: object expected";
-                                            let key = Object.keys(message.Limits);
+                                        if (message.limits != null && message.hasOwnProperty("limits")) {
+                                            if (!$util.isObject(message.limits))
+                                                return "limits: object expected";
+                                            let key = Object.keys(message.limits);
                                             for (let i = 0; i < key.length; ++i)
-                                                if (!$util.isString(message.Limits[key[i]]))
-                                                    return "Limits: string{k:string} expected";
+                                                if (!$util.isString(message.limits[key[i]]))
+                                                    return "limits: string{k:string} expected";
                                         }
-                                        if (message.Requests != null && message.hasOwnProperty("Requests")) {
-                                            if (!$util.isObject(message.Requests))
-                                                return "Requests: object expected";
-                                            let key = Object.keys(message.Requests);
+                                        if (message.requests != null && message.hasOwnProperty("requests")) {
+                                            if (!$util.isObject(message.requests))
+                                                return "requests: object expected";
+                                            let key = Object.keys(message.requests);
                                             for (let i = 0; i < key.length; ++i)
-                                                if (!$util.isString(message.Requests[key[i]]))
-                                                    return "Requests: string{k:string} expected";
+                                                if (!$util.isString(message.requests[key[i]]))
+                                                    return "requests: string{k:string} expected";
                                         }
                                         return null;
                                     };
@@ -40195,19 +40195,19 @@ export const clutch = $root.clutch = (() => {
                                         if (object instanceof $root.clutch.k8s.v1.Deployment.DeploymentSpec.PodTemplateSpec.PodSpec.Container.ResourceRequirements)
                                             return object;
                                         let message = new $root.clutch.k8s.v1.Deployment.DeploymentSpec.PodTemplateSpec.PodSpec.Container.ResourceRequirements();
-                                        if (object.Limits) {
-                                            if (typeof object.Limits !== "object")
-                                                throw TypeError(".clutch.k8s.v1.Deployment.DeploymentSpec.PodTemplateSpec.PodSpec.Container.ResourceRequirements.Limits: object expected");
-                                            message.Limits = {};
-                                            for (let keys = Object.keys(object.Limits), i = 0; i < keys.length; ++i)
-                                                message.Limits[keys[i]] = String(object.Limits[keys[i]]);
+                                        if (object.limits) {
+                                            if (typeof object.limits !== "object")
+                                                throw TypeError(".clutch.k8s.v1.Deployment.DeploymentSpec.PodTemplateSpec.PodSpec.Container.ResourceRequirements.limits: object expected");
+                                            message.limits = {};
+                                            for (let keys = Object.keys(object.limits), i = 0; i < keys.length; ++i)
+                                                message.limits[keys[i]] = String(object.limits[keys[i]]);
                                         }
-                                        if (object.Requests) {
-                                            if (typeof object.Requests !== "object")
-                                                throw TypeError(".clutch.k8s.v1.Deployment.DeploymentSpec.PodTemplateSpec.PodSpec.Container.ResourceRequirements.Requests: object expected");
-                                            message.Requests = {};
-                                            for (let keys = Object.keys(object.Requests), i = 0; i < keys.length; ++i)
-                                                message.Requests[keys[i]] = String(object.Requests[keys[i]]);
+                                        if (object.requests) {
+                                            if (typeof object.requests !== "object")
+                                                throw TypeError(".clutch.k8s.v1.Deployment.DeploymentSpec.PodTemplateSpec.PodSpec.Container.ResourceRequirements.requests: object expected");
+                                            message.requests = {};
+                                            for (let keys = Object.keys(object.requests), i = 0; i < keys.length; ++i)
+                                                message.requests[keys[i]] = String(object.requests[keys[i]]);
                                         }
                                         return message;
                                     };
@@ -40226,19 +40226,19 @@ export const clutch = $root.clutch = (() => {
                                             options = {};
                                         let object = {};
                                         if (options.objects || options.defaults) {
-                                            object.Limits = {};
-                                            object.Requests = {};
+                                            object.limits = {};
+                                            object.requests = {};
                                         }
                                         let keys2;
-                                        if (message.Limits && (keys2 = Object.keys(message.Limits)).length) {
-                                            object.Limits = {};
+                                        if (message.limits && (keys2 = Object.keys(message.limits)).length) {
+                                            object.limits = {};
                                             for (let j = 0; j < keys2.length; ++j)
-                                                object.Limits[keys2[j]] = message.Limits[keys2[j]];
+                                                object.limits[keys2[j]] = message.limits[keys2[j]];
                                         }
-                                        if (message.Requests && (keys2 = Object.keys(message.Requests)).length) {
-                                            object.Requests = {};
+                                        if (message.requests && (keys2 = Object.keys(message.requests)).length) {
+                                            object.requests = {};
                                             for (let j = 0; j < keys2.length; ++j)
-                                                object.Requests[keys2[j]] = message.Requests[keys2[j]];
+                                                object.requests[keys2[j]] = message.requests[keys2[j]];
                                         }
                                         return object;
                                     };

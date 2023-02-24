@@ -89,8 +89,24 @@ func ProtoForDeployment(cluster string, deployment *appsv1.Deployment) *k8sapiv1
 func ProtoForDeploymentSpec(deploymentSpec appsv1.DeploymentSpec) *k8sapiv1.Deployment_DeploymentSpec {
 	var deploymentContainers []*k8sapiv1.Deployment_DeploymentSpec_PodTemplateSpec_PodSpec_Container
 	for _, container := range deploymentSpec.Template.Spec.Containers {
+
+		resourceLimits := make(map[string]string)
+		resourceRequests := make(map[string]string)
+
+		for resource, quantity := range container.Resources.Limits {
+			resourceLimits[string(resource)] = quantity.String()
+		}
+
+		for resource, quantity := range container.Resources.Requests {
+			resourceRequests[string(resource)] = quantity.String()
+		}
+
 		newContainer := &k8sapiv1.Deployment_DeploymentSpec_PodTemplateSpec_PodSpec_Container{
 			Name: container.Name,
+			Resources: &k8sapiv1.Deployment_DeploymentSpec_PodTemplateSpec_PodSpec_Container_ResourceRequirements{
+				Limits:   resourceLimits,
+				Requests: resourceRequests,
+			},
 		}
 		deploymentContainers = append(deploymentContainers, newContainer)
 	}

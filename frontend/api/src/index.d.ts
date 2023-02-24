@@ -16756,11 +16756,11 @@ export namespace clutch {
                                 /** Properties of a ResourceRequirements. */
                                 interface IResourceRequirements {
 
-                                    /** ResourceRequirements Limits */
-                                    Limits?: ({ [k: string]: string }|null);
+                                    /** ResourceRequirements limits */
+                                    limits?: ({ [k: string]: string }|null);
 
-                                    /** ResourceRequirements Requests */
-                                    Requests?: ({ [k: string]: string }|null);
+                                    /** ResourceRequirements requests */
+                                    requests?: ({ [k: string]: string }|null);
                                 }
 
                                 /** Represents a ResourceRequirements. */
@@ -16772,11 +16772,11 @@ export namespace clutch {
                                      */
                                     constructor(properties?: clutch.k8s.v1.Deployment.DeploymentSpec.PodTemplateSpec.PodSpec.Container.IResourceRequirements);
 
-                                    /** ResourceRequirements Limits. */
-                                    public Limits: { [k: string]: string };
+                                    /** ResourceRequirements limits. */
+                                    public limits: { [k: string]: string };
 
-                                    /** ResourceRequirements Requests. */
-                                    public Requests: { [k: string]: string };
+                                    /** ResourceRequirements requests. */
+                                    public requests: { [k: string]: string };
 
                                     /**
                                      * Verifies a ResourceRequirements message.

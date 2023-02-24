@@ -46,10 +46,10 @@ const DeploymentDetails: React.FC<WizardChild> = () => {
         data={[
           { name: "Name", value: deployment.name },
           { name: "Namespace", value: deployment.namespace },
-          { name: "Replicas", value: deployment.deploymentStatus.replicas},
+          { name: "Replicas", value: deployment.deploymentStatus.replicas },
           {
             name: "Container Name",
-            value: deployment.deploymentSpec.template.spec.containers[0].name,
+            value: JSON.stringify(deployment.deploymentSpec.template.spec),
           },
           // { name: "Deployment Status", value: deployment.deploymentStatus },
           // {
