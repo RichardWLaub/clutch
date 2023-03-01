@@ -704,7 +704,7 @@ message UpdateDeploymentRequest {
     map<string, string> annotations = 2 [ (validate.rules).map.keys.string = {min_bytes : 1} ];
 
     message ContainerResources {
-      string containerName = 1;
+      string container_name = 1;
       message ResourceRequirements {
         map<string, string> limits = 1;
         map<string, string> requests = 2;
@@ -712,7 +712,7 @@ message UpdateDeploymentRequest {
       ResourceRequirements resources = 2;
     }
 
-    repeated ContainerResources containerResources = 3;
+    repeated ContainerResources container_resources = 3;
 
   }
 
