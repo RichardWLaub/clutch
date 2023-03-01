@@ -17122,6 +17122,9 @@ export namespace clutch {
 
                     /** Fields annotations */
                     annotations?: ({ [k: string]: string }|null);
+
+                    /** Fields containerResources */
+                    containerResources?: (clutch.k8s.v1.UpdateDeploymentRequest.Fields.IContainerResources[]|null);
                 }
 
                 /** Represents a Fields. */
@@ -17138,6 +17141,9 @@ export namespace clutch {
 
                     /** Fields annotations. */
                     public annotations: { [k: string]: string };
+
+                    /** Fields containerResources. */
+                    public containerResources: clutch.k8s.v1.UpdateDeploymentRequest.Fields.IContainerResources[];
 
                     /**
                      * Verifies a Fields message.
@@ -17166,6 +17172,120 @@ export namespace clutch {
                      * @returns JSON object
                      */
                     public toJSON(): { [k: string]: any };
+                }
+
+                namespace Fields {
+
+                    /** Properties of a ContainerResources. */
+                    interface IContainerResources {
+
+                        /** ContainerResources containerName */
+                        containerName?: (string|null);
+
+                        /** ContainerResources resources */
+                        resources?: (clutch.k8s.v1.UpdateDeploymentRequest.Fields.ContainerResources.IResourceRequirements|null);
+                    }
+
+                    /** Represents a ContainerResources. */
+                    class ContainerResources implements IContainerResources {
+
+                        /**
+                         * Constructs a new ContainerResources.
+                         * @param [properties] Properties to set
+                         */
+                        constructor(properties?: clutch.k8s.v1.UpdateDeploymentRequest.Fields.IContainerResources);
+
+                        /** ContainerResources containerName. */
+                        public containerName: string;
+
+                        /** ContainerResources resources. */
+                        public resources?: (clutch.k8s.v1.UpdateDeploymentRequest.Fields.ContainerResources.IResourceRequirements|null);
+
+                        /**
+                         * Verifies a ContainerResources message.
+                         * @param message Plain object to verify
+                         * @returns `null` if valid, otherwise the reason why it is not
+                         */
+                        public static verify(message: { [k: string]: any }): (string|null);
+
+                        /**
+                         * Creates a ContainerResources message from a plain object. Also converts values to their respective internal types.
+                         * @param object Plain object
+                         * @returns ContainerResources
+                         */
+                        public static fromObject(object: { [k: string]: any }): clutch.k8s.v1.UpdateDeploymentRequest.Fields.ContainerResources;
+
+                        /**
+                         * Creates a plain object from a ContainerResources message. Also converts values to other types if specified.
+                         * @param message ContainerResources
+                         * @param [options] Conversion options
+                         * @returns Plain object
+                         */
+                        public static toObject(message: clutch.k8s.v1.UpdateDeploymentRequest.Fields.ContainerResources, options?: $protobuf.IConversionOptions): { [k: string]: any };
+
+                        /**
+                         * Converts this ContainerResources to JSON.
+                         * @returns JSON object
+                         */
+                        public toJSON(): { [k: string]: any };
+                    }
+
+                    namespace ContainerResources {
+
+                        /** Properties of a ResourceRequirements. */
+                        interface IResourceRequirements {
+
+                            /** ResourceRequirements limits */
+                            limits?: ({ [k: string]: string }|null);
+
+                            /** ResourceRequirements requests */
+                            requests?: ({ [k: string]: string }|null);
+                        }
+
+                        /** Represents a ResourceRequirements. */
+                        class ResourceRequirements implements IResourceRequirements {
+
+                            /**
+                             * Constructs a new ResourceRequirements.
+                             * @param [properties] Properties to set
+                             */
+                            constructor(properties?: clutch.k8s.v1.UpdateDeploymentRequest.Fields.ContainerResources.IResourceRequirements);
+
+                            /** ResourceRequirements limits. */
+                            public limits: { [k: string]: string };
+
+                            /** ResourceRequirements requests. */
+                            public requests: { [k: string]: string };
+
+                            /**
+                             * Verifies a ResourceRequirements message.
+                             * @param message Plain object to verify
+                             * @returns `null` if valid, otherwise the reason why it is not
+                             */
+                            public static verify(message: { [k: string]: any }): (string|null);
+
+                            /**
+                             * Creates a ResourceRequirements message from a plain object. Also converts values to their respective internal types.
+                             * @param object Plain object
+                             * @returns ResourceRequirements
+                             */
+                            public static fromObject(object: { [k: string]: any }): clutch.k8s.v1.UpdateDeploymentRequest.Fields.ContainerResources.ResourceRequirements;
+
+                            /**
+                             * Creates a plain object from a ResourceRequirements message. Also converts values to other types if specified.
+                             * @param message ResourceRequirements
+                             * @param [options] Conversion options
+                             * @returns Plain object
+                             */
+                            public static toObject(message: clutch.k8s.v1.UpdateDeploymentRequest.Fields.ContainerResources.ResourceRequirements, options?: $protobuf.IConversionOptions): { [k: string]: any };
+
+                            /**
+                             * Converts this ResourceRequirements to JSON.
+                             * @returns JSON object
+                             */
+                            public toJSON(): { [k: string]: any };
+                        }
+                    }
                 }
             }
 

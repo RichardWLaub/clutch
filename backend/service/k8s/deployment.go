@@ -8,6 +8,7 @@ import (
 	"google.golang.org/grpc/status"
 	appsv1 "k8s.io/api/apps/v1"
 	v1 "k8s.io/api/core/v1"
+	"k8s.io/apimachinery/pkg/api/resource"
 	metav1 "k8s.io/apimachinery/pkg/apis/meta/v1"
 	"k8s.io/apimachinery/pkg/labels"
 	"k8s.io/apimachinery/pkg/types"
@@ -175,6 +176,10 @@ func (s *svc) UpdateDeployment(ctx context.Context, clientset, cluster, namespac
 
 	newDeployment := oldDeployment.DeepCopy()
 	mergeDeploymentLabelsAndAnnotations(newDeployment, fields)
+	err = updateContainerResources(newDeployment, fields)
+	if err != nil {
+		return err
+	}
 
 	patchBytes, err := GenerateStrategicPatch(oldDeployment, newDeployment, appsv1.Deployment{})
 	if err != nil {
@@ -208,4 +213,33 @@ func mergeDeploymentLabelsAndAnnotations(deployment *appsv1.Deployment, fields *
 		deployment.Annotations = labels.Merge(labels.Set(deployment.Annotations), labels.Set(fields.Annotations))
 		deployment.Spec.Template.ObjectMeta.Annotations = labels.Merge(labels.Set(deployment.Spec.Template.ObjectMeta.Annotations), labels.Set(fields.Annotations))
 	}
+}
+
+func updateContainerResources(deployment *appsv1.Deployment, fields *k8sapiv1.UpdateDeploymentRequest_Fields) error {
+	if len(fields.ContainerResources) > 0 {
+		for _, containerResource := range fields.ContainerResources {
+			for _, container := range deployment.Spec.Template.Spec.Containers {
+				if container.Name == containerResource.ContainerName {
+					resourceNames := []string{"cpu", "memory"}
+					for _, resourceName := range resourceNames {
+						if len(containerResource.Resources.Limits[resourceName]) > 0 {
+							quantity, err := resource.ParseQuantity(containerResource.Resources.Limits[resourceName])
+							if err != nil {
+								return err
+							}
+							container.Resources.Limits[v1.ResourceName(resourceName)] = quantity
+						}
+						if len(containerResource.Resources.Requests[resourceName]) > 0 {
+							quantity, err := resource.ParseQuantity(containerResource.Resources.Requests[resourceName])
+							if err != nil {
+								return err
+							}
+							container.Resources.Requests[v1.ResourceName(resourceName)] = quantity
+						}
+					}
+				}
+			}
+		}
+	}
+	return nil
 }

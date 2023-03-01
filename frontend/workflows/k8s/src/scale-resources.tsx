@@ -51,6 +51,18 @@ const DeploymentDetails: React.FC<WizardChild> = () => {
             name: "Container Name",
             value: JSON.stringify(deployment.deploymentSpec.template.spec),
           },
+          {
+            name: "CPU Limit",
+            value: deployment.deploymentSpec.template.spec.containers[0].resources.limits.cpu,
+            textFieldLabels: {
+              disabledField: "Current Limit",
+              updatedField: "New limit",
+            },
+            input: {
+              type: "string",
+              key: "deploymentSpec.template.spec.containers[0].resources.limits.cpu",
+            },
+          },
           // { name: "Deployment Status", value: deployment.deploymentStatus },
           // {
           //   name: "Unschedulable",
@@ -89,14 +101,15 @@ const ScaleResources: React.FC<WorkflowProps> = ({ heading, resolverType }) => {
     resourceData: {},
     updateData: {
       deps: ["resourceData", "resolverInput"],
-      hydrator: (resourceData: IClutch.k8s.v1.Node, resolverInput: { clientset: string }) => {
+      hydrator: (resourceData: IClutch.k8s.v1.Deployment, resolverInput: { clientset: string }) => {
         const clientset = resolverInput.clientset ?? "undefined";
-        return client.post("/v1/k8s/updateNode", {
+        return client.post("/v1/k8s/updateDeployment", {
           clientset,
           cluster: resourceData.cluster,
-          unschedulable: resourceData.unschedulable,
+          namespace: resourceData.namespace,
           name: resourceData.name,
-        } as IClutch.k8s.v1.UpdateNodeRequest);
+          fields: { labels: {} },
+        } as IClutch.k8s.v1.UpdateDeploymentRequest);
       },
     },
   };

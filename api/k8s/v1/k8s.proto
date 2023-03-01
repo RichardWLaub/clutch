@@ -702,6 +702,18 @@ message UpdateDeploymentRequest {
   message Fields {
     map<string, string> labels = 1 [ (validate.rules).map.keys.string = {min_bytes : 1} ];
     map<string, string> annotations = 2 [ (validate.rules).map.keys.string = {min_bytes : 1} ];
+
+    message ContainerResources {
+      string containerName = 1;
+      message ResourceRequirements {
+        map<string, string> limits = 1;
+        map<string, string> requests = 2;
+      }
+      ResourceRequirements resources = 2;
+    }
+
+    repeated ContainerResources containerResources = 3;
+
   }
 
   Fields fields = 5 [ (validate.rules).message = {required : true} ];

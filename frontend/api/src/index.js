@@ -40983,6 +40983,7 @@ export const clutch = $root.clutch = (() => {
                      * @interface IFields
                      * @property {Object.<string,string>|null} [labels] Fields labels
                      * @property {Object.<string,string>|null} [annotations] Fields annotations
+                     * @property {Array.<clutch.k8s.v1.UpdateDeploymentRequest.Fields.IContainerResources>|null} [containerResources] Fields containerResources
                      */
 
                     /**
@@ -40996,6 +40997,7 @@ export const clutch = $root.clutch = (() => {
                     function Fields(properties) {
                         this.labels = {};
                         this.annotations = {};
+                        this.containerResources = [];
                         if (properties)
                             for (let keys = Object.keys(properties), i = 0; i < keys.length; ++i)
                                 if (properties[keys[i]] != null)
@@ -41017,6 +41019,14 @@ export const clutch = $root.clutch = (() => {
                      * @instance
                      */
                     Fields.prototype.annotations = $util.emptyObject;
+
+                    /**
+                     * Fields containerResources.
+                     * @member {Array.<clutch.k8s.v1.UpdateDeploymentRequest.Fields.IContainerResources>} containerResources
+                     * @memberof clutch.k8s.v1.UpdateDeploymentRequest.Fields
+                     * @instance
+                     */
+                    Fields.prototype.containerResources = $util.emptyArray;
 
                     /**
                      * Verifies a Fields message.
@@ -41044,6 +41054,15 @@ export const clutch = $root.clutch = (() => {
                             for (let i = 0; i < key.length; ++i)
                                 if (!$util.isString(message.annotations[key[i]]))
                                     return "annotations: string{k:string} expected";
+                        }
+                        if (message.containerResources != null && message.hasOwnProperty("containerResources")) {
+                            if (!Array.isArray(message.containerResources))
+                                return "containerResources: array expected";
+                            for (let i = 0; i < message.containerResources.length; ++i) {
+                                let error = $root.clutch.k8s.v1.UpdateDeploymentRequest.Fields.ContainerResources.verify(message.containerResources[i]);
+                                if (error)
+                                    return "containerResources." + error;
+                            }
                         }
                         return null;
                     };
@@ -41074,6 +41093,16 @@ export const clutch = $root.clutch = (() => {
                             for (let keys = Object.keys(object.annotations), i = 0; i < keys.length; ++i)
                                 message.annotations[keys[i]] = String(object.annotations[keys[i]]);
                         }
+                        if (object.containerResources) {
+                            if (!Array.isArray(object.containerResources))
+                                throw TypeError(".clutch.k8s.v1.UpdateDeploymentRequest.Fields.containerResources: array expected");
+                            message.containerResources = [];
+                            for (let i = 0; i < object.containerResources.length; ++i) {
+                                if (typeof object.containerResources[i] !== "object")
+                                    throw TypeError(".clutch.k8s.v1.UpdateDeploymentRequest.Fields.containerResources: object expected");
+                                message.containerResources[i] = $root.clutch.k8s.v1.UpdateDeploymentRequest.Fields.ContainerResources.fromObject(object.containerResources[i]);
+                            }
+                        }
                         return message;
                     };
 
@@ -41090,6 +41119,8 @@ export const clutch = $root.clutch = (() => {
                         if (!options)
                             options = {};
                         let object = {};
+                        if (options.arrays || options.defaults)
+                            object.containerResources = [];
                         if (options.objects || options.defaults) {
                             object.labels = {};
                             object.annotations = {};
@@ -41105,6 +41136,11 @@ export const clutch = $root.clutch = (() => {
                             for (let j = 0; j < keys2.length; ++j)
                                 object.annotations[keys2[j]] = message.annotations[keys2[j]];
                         }
+                        if (message.containerResources && message.containerResources.length) {
+                            object.containerResources = [];
+                            for (let j = 0; j < message.containerResources.length; ++j)
+                                object.containerResources[j] = $root.clutch.k8s.v1.UpdateDeploymentRequest.Fields.ContainerResources.toObject(message.containerResources[j], options);
+                        }
                         return object;
                     };
 
@@ -41118,6 +41154,276 @@ export const clutch = $root.clutch = (() => {
                     Fields.prototype.toJSON = function toJSON() {
                         return this.constructor.toObject(this, $protobuf.util.toJSONOptions);
                     };
+
+                    Fields.ContainerResources = (function() {
+
+                        /**
+                         * Properties of a ContainerResources.
+                         * @memberof clutch.k8s.v1.UpdateDeploymentRequest.Fields
+                         * @interface IContainerResources
+                         * @property {string|null} [containerName] ContainerResources containerName
+                         * @property {clutch.k8s.v1.UpdateDeploymentRequest.Fields.ContainerResources.IResourceRequirements|null} [resources] ContainerResources resources
+                         */
+
+                        /**
+                         * Constructs a new ContainerResources.
+                         * @memberof clutch.k8s.v1.UpdateDeploymentRequest.Fields
+                         * @classdesc Represents a ContainerResources.
+                         * @implements IContainerResources
+                         * @constructor
+                         * @param {clutch.k8s.v1.UpdateDeploymentRequest.Fields.IContainerResources=} [properties] Properties to set
+                         */
+                        function ContainerResources(properties) {
+                            if (properties)
+                                for (let keys = Object.keys(properties), i = 0; i < keys.length; ++i)
+                                    if (properties[keys[i]] != null)
+                                        this[keys[i]] = properties[keys[i]];
+                        }
+
+                        /**
+                         * ContainerResources containerName.
+                         * @member {string} containerName
+                         * @memberof clutch.k8s.v1.UpdateDeploymentRequest.Fields.ContainerResources
+                         * @instance
+                         */
+                        ContainerResources.prototype.containerName = "";
+
+                        /**
+                         * ContainerResources resources.
+                         * @member {clutch.k8s.v1.UpdateDeploymentRequest.Fields.ContainerResources.IResourceRequirements|null|undefined} resources
+                         * @memberof clutch.k8s.v1.UpdateDeploymentRequest.Fields.ContainerResources
+                         * @instance
+                         */
+                        ContainerResources.prototype.resources = null;
+
+                        /**
+                         * Verifies a ContainerResources message.
+                         * @function verify
+                         * @memberof clutch.k8s.v1.UpdateDeploymentRequest.Fields.ContainerResources
+                         * @static
+                         * @param {Object.<string,*>} message Plain object to verify
+                         * @returns {string|null} `null` if valid, otherwise the reason why it is not
+                         */
+                        ContainerResources.verify = function verify(message) {
+                            if (typeof message !== "object" || message === null)
+                                return "object expected";
+                            if (message.containerName != null && message.hasOwnProperty("containerName"))
+                                if (!$util.isString(message.containerName))
+                                    return "containerName: string expected";
+                            if (message.resources != null && message.hasOwnProperty("resources")) {
+                                let error = $root.clutch.k8s.v1.UpdateDeploymentRequest.Fields.ContainerResources.ResourceRequirements.verify(message.resources);
+                                if (error)
+                                    return "resources." + error;
+                            }
+                            return null;
+                        };
+
+                        /**
+                         * Creates a ContainerResources message from a plain object. Also converts values to their respective internal types.
+                         * @function fromObject
+                         * @memberof clutch.k8s.v1.UpdateDeploymentRequest.Fields.ContainerResources
+                         * @static
+                         * @param {Object.<string,*>} object Plain object
+                         * @returns {clutch.k8s.v1.UpdateDeploymentRequest.Fields.ContainerResources} ContainerResources
+                         */
+                        ContainerResources.fromObject = function fromObject(object) {
+                            if (object instanceof $root.clutch.k8s.v1.UpdateDeploymentRequest.Fields.ContainerResources)
+                                return object;
+                            let message = new $root.clutch.k8s.v1.UpdateDeploymentRequest.Fields.ContainerResources();
+                            if (object.containerName != null)
+                                message.containerName = String(object.containerName);
+                            if (object.resources != null) {
+                                if (typeof object.resources !== "object")
+                                    throw TypeError(".clutch.k8s.v1.UpdateDeploymentRequest.Fields.ContainerResources.resources: object expected");
+                                message.resources = $root.clutch.k8s.v1.UpdateDeploymentRequest.Fields.ContainerResources.ResourceRequirements.fromObject(object.resources);
+                            }
+                            return message;
+                        };
+
+                        /**
+                         * Creates a plain object from a ContainerResources message. Also converts values to other types if specified.
+                         * @function toObject
+                         * @memberof clutch.k8s.v1.UpdateDeploymentRequest.Fields.ContainerResources
+                         * @static
+                         * @param {clutch.k8s.v1.UpdateDeploymentRequest.Fields.ContainerResources} message ContainerResources
+                         * @param {$protobuf.IConversionOptions} [options] Conversion options
+                         * @returns {Object.<string,*>} Plain object
+                         */
+                        ContainerResources.toObject = function toObject(message, options) {
+                            if (!options)
+                                options = {};
+                            let object = {};
+                            if (options.defaults) {
+                                object.containerName = "";
+                                object.resources = null;
+                            }
+                            if (message.containerName != null && message.hasOwnProperty("containerName"))
+                                object.containerName = message.containerName;
+                            if (message.resources != null && message.hasOwnProperty("resources"))
+                                object.resources = $root.clutch.k8s.v1.UpdateDeploymentRequest.Fields.ContainerResources.ResourceRequirements.toObject(message.resources, options);
+                            return object;
+                        };
+
+                        /**
+                         * Converts this ContainerResources to JSON.
+                         * @function toJSON
+                         * @memberof clutch.k8s.v1.UpdateDeploymentRequest.Fields.ContainerResources
+                         * @instance
+                         * @returns {Object.<string,*>} JSON object
+                         */
+                        ContainerResources.prototype.toJSON = function toJSON() {
+                            return this.constructor.toObject(this, $protobuf.util.toJSONOptions);
+                        };
+
+                        ContainerResources.ResourceRequirements = (function() {
+
+                            /**
+                             * Properties of a ResourceRequirements.
+                             * @memberof clutch.k8s.v1.UpdateDeploymentRequest.Fields.ContainerResources
+                             * @interface IResourceRequirements
+                             * @property {Object.<string,string>|null} [limits] ResourceRequirements limits
+                             * @property {Object.<string,string>|null} [requests] ResourceRequirements requests
+                             */
+
+                            /**
+                             * Constructs a new ResourceRequirements.
+                             * @memberof clutch.k8s.v1.UpdateDeploymentRequest.Fields.ContainerResources
+                             * @classdesc Represents a ResourceRequirements.
+                             * @implements IResourceRequirements
+                             * @constructor
+                             * @param {clutch.k8s.v1.UpdateDeploymentRequest.Fields.ContainerResources.IResourceRequirements=} [properties] Properties to set
+                             */
+                            function ResourceRequirements(properties) {
+                                this.limits = {};
+                                this.requests = {};
+                                if (properties)
+                                    for (let keys = Object.keys(properties), i = 0; i < keys.length; ++i)
+                                        if (properties[keys[i]] != null)
+                                            this[keys[i]] = properties[keys[i]];
+                            }
+
+                            /**
+                             * ResourceRequirements limits.
+                             * @member {Object.<string,string>} limits
+                             * @memberof clutch.k8s.v1.UpdateDeploymentRequest.Fields.ContainerResources.ResourceRequirements
+                             * @instance
+                             */
+                            ResourceRequirements.prototype.limits = $util.emptyObject;
+
+                            /**
+                             * ResourceRequirements requests.
+                             * @member {Object.<string,string>} requests
+                             * @memberof clutch.k8s.v1.UpdateDeploymentRequest.Fields.ContainerResources.ResourceRequirements
+                             * @instance
+                             */
+                            ResourceRequirements.prototype.requests = $util.emptyObject;
+
+                            /**
+                             * Verifies a ResourceRequirements message.
+                             * @function verify
+                             * @memberof clutch.k8s.v1.UpdateDeploymentRequest.Fields.ContainerResources.ResourceRequirements
+                             * @static
+                             * @param {Object.<string,*>} message Plain object to verify
+                             * @returns {string|null} `null` if valid, otherwise the reason why it is not
+                             */
+                            ResourceRequirements.verify = function verify(message) {
+                                if (typeof message !== "object" || message === null)
+                                    return "object expected";
+                                if (message.limits != null && message.hasOwnProperty("limits")) {
+                                    if (!$util.isObject(message.limits))
+                                        return "limits: object expected";
+                                    let key = Object.keys(message.limits);
+                                    for (let i = 0; i < key.length; ++i)
+                                        if (!$util.isString(message.limits[key[i]]))
+                                            return "limits: string{k:string} expected";
+                                }
+                                if (message.requests != null && message.hasOwnProperty("requests")) {
+                                    if (!$util.isObject(message.requests))
+                                        return "requests: object expected";
+                                    let key = Object.keys(message.requests);
+                                    for (let i = 0; i < key.length; ++i)
+                                        if (!$util.isString(message.requests[key[i]]))
+                                            return "requests: string{k:string} expected";
+                                }
+                                return null;
+                            };
+
+                            /**
+                             * Creates a ResourceRequirements message from a plain object. Also converts values to their respective internal types.
+                             * @function fromObject
+                             * @memberof clutch.k8s.v1.UpdateDeploymentRequest.Fields.ContainerResources.ResourceRequirements
+                             * @static
+                             * @param {Object.<string,*>} object Plain object
+                             * @returns {clutch.k8s.v1.UpdateDeploymentRequest.Fields.ContainerResources.ResourceRequirements} ResourceRequirements
+                             */
+                            ResourceRequirements.fromObject = function fromObject(object) {
+                                if (object instanceof $root.clutch.k8s.v1.UpdateDeploymentRequest.Fields.ContainerResources.ResourceRequirements)
+                                    return object;
+                                let message = new $root.clutch.k8s.v1.UpdateDeploymentRequest.Fields.ContainerResources.ResourceRequirements();
+                                if (object.limits) {
+                                    if (typeof object.limits !== "object")
+                                        throw TypeError(".clutch.k8s.v1.UpdateDeploymentRequest.Fields.ContainerResources.ResourceRequirements.limits: object expected");
+                                    message.limits = {};
+                                    for (let keys = Object.keys(object.limits), i = 0; i < keys.length; ++i)
+                                        message.limits[keys[i]] = String(object.limits[keys[i]]);
+                                }
+                                if (object.requests) {
+                                    if (typeof object.requests !== "object")
+                                        throw TypeError(".clutch.k8s.v1.UpdateDeploymentRequest.Fields.ContainerResources.ResourceRequirements.requests: object expected");
+                                    message.requests = {};
+                                    for (let keys = Object.keys(object.requests), i = 0; i < keys.length; ++i)
+                                        message.requests[keys[i]] = String(object.requests[keys[i]]);
+                                }
+                                return message;
+                            };
+
+                            /**
+                             * Creates a plain object from a ResourceRequirements message. Also converts values to other types if specified.
+                             * @function toObject
+                             * @memberof clutch.k8s.v1.UpdateDeploymentRequest.Fields.ContainerResources.ResourceRequirements
+                             * @static
+                             * @param {clutch.k8s.v1.UpdateDeploymentRequest.Fields.ContainerResources.ResourceRequirements} message ResourceRequirements
+                             * @param {$protobuf.IConversionOptions} [options] Conversion options
+                             * @returns {Object.<string,*>} Plain object
+                             */
+                            ResourceRequirements.toObject = function toObject(message, options) {
+                                if (!options)
+                                    options = {};
+                                let object = {};
+                                if (options.objects || options.defaults) {
+                                    object.limits = {};
+                                    object.requests = {};
+                                }
+                                let keys2;
+                                if (message.limits && (keys2 = Object.keys(message.limits)).length) {
+                                    object.limits = {};
+                                    for (let j = 0; j < keys2.length; ++j)
+                                        object.limits[keys2[j]] = message.limits[keys2[j]];
+                                }
+                                if (message.requests && (keys2 = Object.keys(message.requests)).length) {
+                                    object.requests = {};
+                                    for (let j = 0; j < keys2.length; ++j)
+                                        object.requests[keys2[j]] = message.requests[keys2[j]];
+                                }
+                                return object;
+                            };
+
+                            /**
+                             * Converts this ResourceRequirements to JSON.
+                             * @function toJSON
+                             * @memberof clutch.k8s.v1.UpdateDeploymentRequest.Fields.ContainerResources.ResourceRequirements
+                             * @instance
+                             * @returns {Object.<string,*>} JSON object
+                             */
+                            ResourceRequirements.prototype.toJSON = function toJSON() {
+                                return this.constructor.toObject(this, $protobuf.util.toJSONOptions);
+                            };
+
+                            return ResourceRequirements;
+                        })();
+
+                        return ContainerResources;
+                    })();
 
                     return Fields;
                 })();
