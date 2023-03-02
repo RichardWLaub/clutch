@@ -55,15 +55,9 @@ const DeploymentDetails: React.FC<WizardChild> = () => {
                 helperText=""
                 label="Container Name"
                 name="containerName"
-                options={[
-                  {
-                    label: "myapp",
-                  },
-                  {
-                    label: "envoyproxy",
-                    value: "Other Value",
-                  },
-                ]}
+                options={deployment.deploymentSpec.template.spec.containers.map(container => {
+                  return { label: container.name };
+                })}
               />
             ),
           },
