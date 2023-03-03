@@ -711,9 +711,7 @@ message UpdateDeploymentRequest {
       }
       ResourceRequirements resources = 2;
     }
-
     repeated ContainerResources container_resources = 3;
-
   }
 
   Fields fields = 5 [ (validate.rules).message = {required : true} ];
