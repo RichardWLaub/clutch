@@ -142,21 +142,33 @@ const ScaleResources: React.FC<WorkflowProps> = ({ heading, resolverType }) => {
     resourceData: {},
     updateData: {
       deps: ["resourceData", "resolverInput"],
-      hydrator: (resourceData: IClutch.k8s.v1.Deployment, resolverInput: { clientset: string }) => {
+      hydrator: (
+        resourceData: { containerName: string; deployment: IClutch.k8s.v1.Deployment },
+        resolverInput: { clientset: string }
+      ) => {
         const clientset = resolverInput.clientset ?? "undefined";
+        const thename = "crontupisto";
         const limits: { [key: string]: string } = {
-          cpu: resourceData.deploymentSpec.template.spec.containers[0].resources.limits.cpu,
-          memory: resourceData.deploymentSpec.template.spec.containers[0].resources.limits.memory,
+          cpu: resourceData.deployment.deploymentSpec.template.spec.containers.find(
+            container => container.name === thename
+          ).resources.limits.cpu,
+          memory: resourceData.deployment.deploymentSpec.template.spec.containers.find(
+            container => container.name === thename
+          ).resources.limits.memory,
         };
         const requests: { [key: string]: string } = {
-          cpu: resourceData.deploymentSpec.template.spec.containers[0].resources.requests.cpu,
-          memory: resourceData.deploymentSpec.template.spec.containers[0].resources.requests.memory,
+          cpu: resourceData.deployment.deploymentSpec.template.spec.containers.find(
+            container => container.name === thename
+          ).resources.requests.cpu,
+          memory: resourceData.deployment.deploymentSpec.template.spec.containers.find(
+            container => container.name === thename
+          ).resources.requests.memory,
         };
         return client.post("/v1/k8s/updateDeployment", {
           clientset,
-          cluster: resourceData.cluster,
-          namespace: resourceData.namespace,
-          name: resourceData.name,
+          cluster: resourceData.deployment.cluster,
+          namespace: resourceData.deployment.namespace,
+          name: resourceData.deployment.name,
           fields: {
             containerResources: [
               {
