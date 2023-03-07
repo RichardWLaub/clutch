@@ -55,6 +55,7 @@ const DeploymentDetails: React.FC<WizardChild> = () => {
                 helperText=""
                 label="Container Name"
                 name="containerName"
+                onChange={value => resourceData.updateData("containerName", value)}
                 options={deployment.deploymentSpec.template.spec.containers.map(container => {
                   return { label: container.name };
                 })}
@@ -142,7 +143,16 @@ const ScaleResources: React.FC<WorkflowProps> = ({ heading, resolverType }) => {
     resourceData: {},
     updateData: {
       deps: ["resourceData", "resolverInput"],
-      hydrator: (resourceData: IClutch.k8s.v1.Deployment, resolverInput: { clientset: string }) => {
+      hydrator: (
+        resourceData: {
+          cluster: string;
+          containerName: string;
+          deploymentSpec: IClutch.k8s.v1.Deployment.DeploymentSpec;
+          name: string;
+          namespace: string;
+        },
+        resolverInput: { clientset: string }
+      ) => {
         const clientset = resolverInput.clientset ?? "undefined";
         const limits: { [key: string]: string } = {
           cpu: resourceData.deploymentSpec.template.spec.containers[0].resources.limits.cpu,
@@ -160,7 +170,7 @@ const ScaleResources: React.FC<WorkflowProps> = ({ heading, resolverType }) => {
           fields: {
             containerResources: [
               {
-                containerName: "healthcheck-chart",
+                containerName: resourceData.containerName,
                 resources: {
                   limits,
                   requests,
