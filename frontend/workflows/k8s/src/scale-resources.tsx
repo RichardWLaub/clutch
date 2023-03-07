@@ -155,12 +155,20 @@ const ScaleResources: React.FC<WorkflowProps> = ({ heading, resolverType }) => {
       ) => {
         const clientset = resolverInput.clientset ?? "undefined";
         const limits: { [key: string]: string } = {
-          cpu: resourceData.deploymentSpec.template.spec.containers[0].resources.limits.cpu,
-          memory: resourceData.deploymentSpec.template.spec.containers[0].resources.limits.memory,
+          cpu: resourceData.deploymentSpec.template.spec.containers.find(
+            container => container.name === resourceData.containerName
+          ).resources.limits.cpu,
+          memory: resourceData.deploymentSpec.template.spec.containers.find(
+            container => container.name === resourceData.containerName
+          ).resources.limits.memory,
         };
         const requests: { [key: string]: string } = {
-          cpu: resourceData.deploymentSpec.template.spec.containers[0].resources.requests.cpu,
-          memory: resourceData.deploymentSpec.template.spec.containers[0].resources.requests.memory,
+          cpu: resourceData.deploymentSpec.template.spec.containers.find(
+            container => container.name === resourceData.containerName
+          ).resources.requests.cpu,
+          memory: resourceData.deploymentSpec.template.spec.containers.find(
+            container => container.name === resourceData.containerName
+          ).resources.requests.memory,
         };
         return client.post("/v1/k8s/updateDeployment", {
           clientset,
