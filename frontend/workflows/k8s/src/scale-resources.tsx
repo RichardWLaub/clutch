@@ -1,4 +1,4 @@
-import React from "react";
+import React, { useState } from "react";
 import type { clutch as IClutch } from "@clutch-sh/api";
 import {
   Button,
@@ -38,6 +38,12 @@ const DeploymentDetails: React.FC<WizardChild> = () => {
   const update = (key: string, value: boolean) => {
     resourceData.updateData(key, value);
   };
+  const [containerName, setContainerName] = useState(
+    deployment.deploymentSpec.template.spec.containers[0].name
+  );
+  const index = deployment.deploymentSpec.template.spec.containers.findIndex(
+    container => container.name === containerName
+  );
   return (
     <WizardStep error={resourceData.error} isLoading={resourceData.isLoading}>
       <strong>Deployment Details</strong>
@@ -55,7 +61,10 @@ const DeploymentDetails: React.FC<WizardChild> = () => {
                 helperText=""
                 label="Container Name"
                 name="containerName"
-                onChange={value => resourceData.updateData("containerName", value)}
+                onChange={value => {
+                  setContainerName(value);
+                  resourceData.updateData("containerName", value);
+                }}
                 options={deployment.deploymentSpec.template.spec.containers.map(container => {
                   return { label: container.name };
                 })}
@@ -64,50 +73,58 @@ const DeploymentDetails: React.FC<WizardChild> = () => {
           },
           {
             name: "CPU Limit",
-            value: deployment.deploymentSpec.template.spec.containers[0].resources.limits.cpu,
+            value: deployment.deploymentSpec.template.spec.containers.find(
+              container => container.name === containerName
+            ).resources.limits.cpu,
             textFieldLabels: {
               disabledField: "Current Limit",
               updatedField: "New limit",
             },
             input: {
               type: "string",
-              key: "deploymentSpec.template.spec.containers[0].resources.limits.cpu",
+              key: `deploymentSpec.template.spec.containers[${index}].resources.limits.cpu`,
             },
           },
           {
             name: "CPU Request",
-            value: deployment.deploymentSpec.template.spec.containers[0].resources.requests.cpu,
+            value: deployment.deploymentSpec.template.spec.containers.find(
+              container => container.name === containerName
+            ).resources.requests.cpu,
             textFieldLabels: {
               disabledField: "Current Request",
               updatedField: "New Request",
             },
             input: {
               type: "string",
-              key: "deploymentSpec.template.spec.containers[0].resources.requests.cpu",
+              key: `deploymentSpec.template.spec.containers[${index}].resources.requests.cpu`,
             },
           },
           {
             name: "Memory Limit",
-            value: deployment.deploymentSpec.template.spec.containers[0].resources.limits.memory,
+            value: deployment.deploymentSpec.template.spec.containers.find(
+              container => container.name === containerName
+            ).resources.limits.memory,
             textFieldLabels: {
               disabledField: "Current Limit",
               updatedField: "New limit",
             },
             input: {
               type: "string",
-              key: "deploymentSpec.template.spec.containers[0].resources.limits.memory",
+              key: `deploymentSpec.template.spec.containers[${index}].resources.limits.memory`,
             },
           },
           {
             name: "Memory Request",
-            value: deployment.deploymentSpec.template.spec.containers[0].resources.requests.memory,
+            value: deployment.deploymentSpec.template.spec.containers.find(
+              container => container.name === containerName
+            ).resources.requests.memory,
             textFieldLabels: {
               disabledField: "Current Request",
               updatedField: "New Request",
             },
             input: {
               type: "string",
-              key: "deploymentSpec.template.spec.containers[0].resources.requests.memory",
+              key: `deploymentSpec.template.spec.containers[${index}].resources.requests.memory`,
             },
           },
         ]}
