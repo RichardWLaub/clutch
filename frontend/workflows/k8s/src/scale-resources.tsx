@@ -19,12 +19,12 @@ import type { ConfirmChild, ResolverChild, WorkflowProps } from ".";
 const DeploymentIdentifier: React.FC<ResolverChild> = ({ resolverType }) => {
   const { onSubmit } = useWizardContext();
   const deploymentData = useDataLayout("deploymentData");
-  const resolverInput = useDataLayout("resolverInput");
+  const inputData = useDataLayout("inputData");
 
   const onResolve = ({ results, input }) => {
     // Decide how to process results.
     deploymentData.assign(results[0]);
-    resolverInput.assign(input);
+    inputData.assign(input);
     onSubmit();
   };
 
@@ -156,10 +156,10 @@ const Confirm: React.FC<ConfirmChild> = () => {
 
 const ScaleResources: React.FC<WorkflowProps> = ({ heading, resolverType }) => {
   const dataLayout = {
-    resolverInput: {},
+    inputData: {},
     deploymentData: {},
     updateData: {
-      deps: ["deploymentData", "resolverInput"],
+      deps: ["deploymentData", "inputData"],
       hydrator: (
         deploymentData: {
           cluster: string;
@@ -168,9 +168,9 @@ const ScaleResources: React.FC<WorkflowProps> = ({ heading, resolverType }) => {
           name: string;
           namespace: string;
         },
-        resolverInput: { clientset: string }
+        inputData: { clientset: string }
       ) => {
-        const clientset = resolverInput.clientset ?? "undefined";
+        const clientset = inputData.clientset ?? "undefined";
         const limits: { [key: string]: string } = {
           cpu: deploymentData.deploymentSpec.template.spec.containers.find(
             container => container.name === deploymentData.containerName
