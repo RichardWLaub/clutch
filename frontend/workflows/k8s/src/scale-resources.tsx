@@ -138,16 +138,16 @@ const DeploymentDetails: React.FC<WizardChild> = () => {
 };
 
 const Confirm: React.FC<ConfirmChild> = () => {
-  const node = useDataLayout("resourceData").displayValue() as IClutch.k8s.v1.Node;
+  const deployment = useDataLayout("resourceData").displayValue() as IClutch.k8s.v1.Deployment;
   const updateData = useDataLayout("updateData");
   return (
     <WizardStep error={updateData.error} isLoading={updateData.isLoading}>
       <Confirmation action="Update" />
       <MetadataTable
         data={[
-          { name: "Name", value: node.name },
-          { name: "Cluster", value: node.cluster },
-          { name: "Unschedulable", value: String(node.unschedulable) },
+          { name: "Name", value: deployment.name },
+          { name: "Namespace", value: deployment.namespace },
+          { name: "Cluster", value: deployment.cluster },
         ]}
       />
     </WizardStep>
