@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React from "react";
 import type { clutch as IClutch } from "@clutch-sh/api";
 import {
   Button,
@@ -38,12 +38,15 @@ const DeploymentDetails: React.FC<WizardChild> = () => {
   const update = (key: string, value: boolean) => {
     deploymentData.updateData(key, value);
   };
-  const [containerName, setContainerName] = useState(
+
+  const [containerName, setContainerName] = React.useState(
     deployment.deploymentSpec.template.spec.containers[0].name
   );
+
   const index = deployment.deploymentSpec.template.spec.containers.findIndex(
     container => container.name === containerName
   );
+
   return (
     <WizardStep error={deploymentData.error} isLoading={deploymentData.isLoading}>
       <strong>Deployment Details</strong>
