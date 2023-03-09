@@ -18,12 +18,12 @@ import type { ConfirmChild, ResolverChild, WorkflowProps } from ".";
 
 const DeploymentIdentifier: React.FC<ResolverChild> = ({ resolverType }) => {
   const { onSubmit } = useWizardContext();
-  const resourceData = useDataLayout("resourceData");
+  const deploymentData = useDataLayout("deploymentData");
   const resolverInput = useDataLayout("resolverInput");
 
   const onResolve = ({ results, input }) => {
     // Decide how to process results.
-    resourceData.assign(results[0]);
+    deploymentData.assign(results[0]);
     resolverInput.assign(input);
     onSubmit();
   };
@@ -33,10 +33,10 @@ const DeploymentIdentifier: React.FC<ResolverChild> = ({ resolverType }) => {
 
 const DeploymentDetails: React.FC<WizardChild> = () => {
   const { onSubmit, onBack } = useWizardContext();
-  const resourceData = useDataLayout("resourceData");
-  const deployment = resourceData.displayValue() as IClutch.k8s.v1.Deployment;
+  const deploymentData = useDataLayout("deploymentData");
+  const deployment = deploymentData.displayValue() as IClutch.k8s.v1.Deployment;
   const update = (key: string, value: boolean) => {
-    resourceData.updateData(key, value);
+    deploymentData.updateData(key, value);
   };
   const [containerName, setContainerName] = useState(
     deployment.deploymentSpec.template.spec.containers[0].name
@@ -45,7 +45,7 @@ const DeploymentDetails: React.FC<WizardChild> = () => {
     container => container.name === containerName
   );
   return (
-    <WizardStep error={resourceData.error} isLoading={resourceData.isLoading}>
+    <WizardStep error={deploymentData.error} isLoading={deploymentData.isLoading}>
       <strong>Deployment Details</strong>
       <MetadataTable
         onUpdate={update}
@@ -63,7 +63,7 @@ const DeploymentDetails: React.FC<WizardChild> = () => {
                 name="containerName"
                 onChange={value => {
                   setContainerName(value);
-                  resourceData.updateData("containerName", value);
+                  deploymentData.updateData("containerName", value);
                 }}
                 options={deployment.deploymentSpec.template.spec.containers.map(container => {
                   return { label: container.name };
@@ -138,7 +138,7 @@ const DeploymentDetails: React.FC<WizardChild> = () => {
 };
 
 const Confirm: React.FC<ConfirmChild> = () => {
-  const deployment = useDataLayout("resourceData").displayValue() as IClutch.k8s.v1.Deployment;
+  const deployment = useDataLayout("deploymentData").displayValue() as IClutch.k8s.v1.Deployment;
   const updateData = useDataLayout("updateData");
   return (
     <WizardStep error={updateData.error} isLoading={updateData.isLoading}>
@@ -157,11 +157,11 @@ const Confirm: React.FC<ConfirmChild> = () => {
 const ScaleResources: React.FC<WorkflowProps> = ({ heading, resolverType }) => {
   const dataLayout = {
     resolverInput: {},
-    resourceData: {},
+    deploymentData: {},
     updateData: {
-      deps: ["resourceData", "resolverInput"],
+      deps: ["deploymentData", "resolverInput"],
       hydrator: (
-        resourceData: {
+        deploymentData: {
           cluster: string;
           containerName: string;
           deploymentSpec: IClutch.k8s.v1.Deployment.DeploymentSpec;
@@ -172,30 +172,30 @@ const ScaleResources: React.FC<WorkflowProps> = ({ heading, resolverType }) => {
       ) => {
         const clientset = resolverInput.clientset ?? "undefined";
         const limits: { [key: string]: string } = {
-          cpu: resourceData.deploymentSpec.template.spec.containers.find(
-            container => container.name === resourceData.containerName
+          cpu: deploymentData.deploymentSpec.template.spec.containers.find(
+            container => container.name === deploymentData.containerName
           ).resources.limits.cpu,
-          memory: resourceData.deploymentSpec.template.spec.containers.find(
-            container => container.name === resourceData.containerName
+          memory: deploymentData.deploymentSpec.template.spec.containers.find(
+            container => container.name === deploymentData.containerName
           ).resources.limits.memory,
         };
         const requests: { [key: string]: string } = {
-          cpu: resourceData.deploymentSpec.template.spec.containers.find(
-            container => container.name === resourceData.containerName
+          cpu: deploymentData.deploymentSpec.template.spec.containers.find(
+            container => container.name === deploymentData.containerName
           ).resources.requests.cpu,
-          memory: resourceData.deploymentSpec.template.spec.containers.find(
-            container => container.name === resourceData.containerName
+          memory: deploymentData.deploymentSpec.template.spec.containers.find(
+            container => container.name === deploymentData.containerName
           ).resources.requests.memory,
         };
         return client.post("/v1/k8s/updateDeployment", {
           clientset,
-          cluster: resourceData.cluster,
-          namespace: resourceData.namespace,
-          name: resourceData.name,
+          cluster: deploymentData.cluster,
+          namespace: deploymentData.namespace,
+          name: deploymentData.name,
           fields: {
             containerResources: [
               {
-                containerName: resourceData.containerName,
+                containerName: deploymentData.containerName,
                 resources: {
                   limits,
                   requests,
