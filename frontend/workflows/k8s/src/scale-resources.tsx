@@ -43,9 +43,7 @@ const DeploymentDetails: React.FC<WizardChild> = () => {
     deployment.deploymentSpec.template.spec.containers[0].name
   );
 
-  const index = deployment.deploymentSpec.template.spec.containers.findIndex(
-    container => container.name === containerName
-  );
+  const [containerIndex, setContainerIndex] = React.useState(0);
 
   return (
     <WizardStep error={deploymentData.error} isLoading={deploymentData.isLoading}>
@@ -66,6 +64,11 @@ const DeploymentDetails: React.FC<WizardChild> = () => {
                 name="containerName"
                 onChange={value => {
                   setContainerName(value);
+                  setContainerIndex(
+                    deployment.deploymentSpec.template.spec.containers.findIndex(
+                      container => container.name === value
+                    )
+                  );
                   deploymentData.updateData("containerName", value);
                 }}
                 options={deployment.deploymentSpec.template.spec.containers.map(container => {
@@ -85,7 +88,7 @@ const DeploymentDetails: React.FC<WizardChild> = () => {
             },
             input: {
               type: "string",
-              key: `deploymentSpec.template.spec.containers[${index}].resources.limits.cpu`,
+              key: `deploymentSpec.template.spec.containers[${containerIndex}].resources.limits.cpu`,
             },
           },
           {
@@ -99,7 +102,7 @@ const DeploymentDetails: React.FC<WizardChild> = () => {
             },
             input: {
               type: "string",
-              key: `deploymentSpec.template.spec.containers[${index}].resources.requests.cpu`,
+              key: `deploymentSpec.template.spec.containers[${containerIndex}].resources.requests.cpu`,
             },
           },
           {
@@ -113,7 +116,7 @@ const DeploymentDetails: React.FC<WizardChild> = () => {
             },
             input: {
               type: "string",
-              key: `deploymentSpec.template.spec.containers[${index}].resources.limits.memory`,
+              key: `deploymentSpec.template.spec.containers[${containerIndex}].resources.limits.memory`,
             },
           },
           {
@@ -127,7 +130,7 @@ const DeploymentDetails: React.FC<WizardChild> = () => {
             },
             input: {
               type: "string",
-              key: `deploymentSpec.template.spec.containers[${index}].resources.requests.memory`,
+              key: `deploymentSpec.template.spec.containers[${containerIndex}].resources.requests.memory`,
             },
           },
         ]}
