@@ -58,8 +58,6 @@ const DeploymentDetails: React.FC<WizardChild> = () => {
             name: "Container Name",
             value: (
               <Select
-                defaultOption=""
-                helperText=""
                 label="Container Name"
                 name="containerName"
                 onChange={value => {
