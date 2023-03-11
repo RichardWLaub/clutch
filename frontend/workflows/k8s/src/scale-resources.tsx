@@ -51,6 +51,7 @@ const DeploymentDetails: React.FC<WizardChild> = () => {
   const [containerIndex, setContainerIndex] = React.useState(0);
 
   React.useEffect(() => {
+    // save the original values of deployment spec
     if (deployment) {
       currentDeploymentData.assign(deployment);
     }
@@ -64,7 +65,6 @@ const DeploymentDetails: React.FC<WizardChild> = () => {
         data={[
           { name: "Name", value: deployment.name },
           { name: "Namespace", value: deployment.namespace },
-          { name: "Replicas", value: deployment.deploymentStatus.replicas },
           {
             name: "Container Name",
             value: (
