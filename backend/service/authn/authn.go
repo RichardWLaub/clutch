@@ -51,7 +51,7 @@ type Claims struct {
 	*jwt.StandardClaims
 
 	// Groups could be derived from the token or an external mapping.
-	Groups []string `json:"grp,omitempty"`
+	Groups []string `json:"groups,omitempty"`
 }
 
 type Provider interface {

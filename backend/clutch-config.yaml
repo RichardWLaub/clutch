@@ -19,6 +19,8 @@ gateway:
   timeouts:
     default: 15s
   middleware:
+    - name: clutch.middleware.authn
+    - name: clutch.middleware.authz
     - name: clutch.middleware.stats
     - name: clutch.middleware.validate
   listener:
@@ -28,6 +30,7 @@ gateway:
       secure: false
 modules:
   - name: clutch.module.assets
+  - name: clutch.module.authn
   - name: clutch.module.dynamodb
   - name: clutch.module.healthcheck
   - name: clutch.module.resolver
@@ -40,6 +43,34 @@ modules:
       "@type": types.google.com/clutch.config.module.project.v1.Config
       project_service_override: clutch.service.project
 services:
+  - name: clutch.service.authn
+    typed_config:
+      "@type": types.google.com/clutch.config.service.authn.v1.Config
+      oidc:
+        issuer: https://trial-4216791.okta.com
+        client_id: 0oa4o5zvcgeL1Blr8697
+        client_secret: 9mTNgoRSgSgIgRnPGN6cB2Ga3Q6zggPUI0qyb-DO
+        redirect_url: "http://localhost:8080/v1/authn/callback"
+        subject_claim_name_override: "name"
+        scopes:
+        - openid
+        - email
+        - groups
+        - offline_access
+        - profile
+      session_secret: this_is_my_secret
+  - name: clutch.service.authz
+    typed_config:
+      "@type": types.google.com/clutch.config.service.authz.v1.Config
+      role_bindings:
+        - to: [superuser]
+          principals:
+            - group: arcus-squad
+      roles:
+        - role_name: superuser
+          policies:
+            - policy_name: allow-all
+              method: "*"
   - name: clutch.service.project
   - name: clutch.service.aws
     typed_config:
