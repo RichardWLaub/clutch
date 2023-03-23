@@ -50,13 +50,13 @@ services:
         issuer: https://trial-4216791.okta.com
         client_id: 0oa4o5zvcgeL1Blr8697
         client_secret: 9mTNgoRSgSgIgRnPGN6cB2Ga3Q6zggPUI0qyb-DO
+        groups_claim_name_override: "groups"
         redirect_url: "http://localhost:8080/v1/authn/callback"
         subject_claim_name_override: "name"
         scopes:
         - openid
         - email
         - groups
-        - offline_access
         - profile
       session_secret: this_is_my_secret
   - name: clutch.service.authz
@@ -65,7 +65,7 @@ services:
       role_bindings:
         - to: [superuser]
           principals:
-            - group: arcus-squad
+            - group: arcus-squads
       roles:
         - role_name: superuser
           policies:

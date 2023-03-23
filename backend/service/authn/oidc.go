@@ -414,7 +414,7 @@ func NewOIDCProvider(ctx context.Context, config *authnv1.Config, tokenStorage S
 	}
 	claimsFromOIDCTokenFunc := DefaultClaimsFromOIDCToken
 	if c.SubjectClaimNameOverride != "" {
-		claimsFromOIDCTokenFunc = NewClaimsConfig(c.SubjectClaimNameOverride).ClaimsFromOIDCToken
+		claimsFromOIDCTokenFunc = NewClaimsConfig(c.SubjectClaimNameOverride, c.GroupsClaimNameOverride).ClaimsFromOIDCToken
 	}
 	p := &OIDCProvider{
 		providerAlias:              alias,
@@ -431,14 +431,16 @@ func NewOIDCProvider(ctx context.Context, config *authnv1.Config, tokenStorage S
 	return p, nil
 }
 
-func NewClaimsConfig(subjectClaimName string) *ClaimsConfig {
+func NewClaimsConfig(subjectClaimName string, groupsClaimName string) *ClaimsConfig {
 	return &ClaimsConfig{
 		subjectClaimName: subjectClaimName,
+		groupsClaimName:  groupsClaimName,
 	}
 }
 
 type ClaimsConfig struct {
 	subjectClaimName string
+	groupsClaimName  string
 }
 
 func (cc *ClaimsConfig) ClaimsFromOIDCToken(ctx context.Context, t *oidc.IDToken) (*Claims, error) {
@@ -459,24 +461,25 @@ func (cc *ClaimsConfig) ClaimsFromOIDCToken(ctx context.Context, t *oidc.IDToken
 		return nil, fmt.Errorf("claims field %s is empty", cc.subjectClaimName)
 	}
 	var groups []string
-
-	groupsInt, ok := claims["groups"]
-	if !ok {
-		return nil, fmt.Errorf("claims did not deserialize with %s field", "groups")
-	}
-	groupsIntSlice, ok := groupsInt.([]interface{})
-	if !ok {
-		return nil, fmt.Errorf("group claim did not deserialize with %s field, groups claim must be a list", "groups")
-	}
-
-	for _, v := range groupsIntSlice {
-		group, ok := v.(string)
-
+	if cc.groupsClaimName != "" {
+		groupsInt, ok := claims["groups"]
 		if !ok {
-			return nil, fmt.Errorf("claims did not deserialize with %s field, group %v", "groups", v)
+			return nil, fmt.Errorf("claims did not deserialize with %s field", "groups")
+		}
+		groupsIntSlice, ok := groupsInt.([]interface{})
+		if !ok {
+			return nil, fmt.Errorf("group claim did not deserialize with %s field, groups claim must be a list", "groups")
 		}
 
-		groups = append(groups, group)
+		for _, v := range groupsIntSlice {
+			group, ok := v.(string)
+
+			if !ok {
+				return nil, fmt.Errorf("claims did not deserialize with %s field, group %v", "groups", v)
+			}
+
+			groups = append(groups, group)
+		}
 	}
 
 	sc := oidcTokenToStandardClaims(t)
