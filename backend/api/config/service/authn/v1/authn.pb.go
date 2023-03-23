@@ -34,9 +34,7 @@ type OIDC struct {
 	// The subject is mapped from the JWT token's email claim by default.
 	// Set this field to the JWT token's claim name to override the subject.
 	SubjectClaimNameOverride string `protobuf:"bytes,6,opt,name=subject_claim_name_override,json=subjectClaimNameOverride,proto3" json:"subject_claim_name_override,omitempty"`
-	// The groups are mapped from the JWT token's groups claim by default.
-	// Set this field to the JWT token's claim name to override the groups.
-	GroupsClaimNameOverride string `protobuf:"bytes,7,opt,name=groups_claim_name_override,json=groupsClaimNameOverride,proto3" json:"groups_claim_name_override,omitempty"`
+	GroupsClaimNameOverride  string `protobuf:"bytes,7,opt,name=groups_claim_name_override,json=groupsClaimNameOverride,proto3" json:"groups_claim_name_override,omitempty"`
 }
 
 func (x *OIDC) Reset() {
