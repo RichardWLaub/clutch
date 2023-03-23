@@ -71,7 +71,6 @@ func (p *OIDCProvider) ValidateStateNonce(state string) (string, error) {
 		return []byte(p.sessionSecret), nil
 	})
 	if err != nil {
-		fmt.Println("Failed at ValidateStateNonce!!!!")
 		return "", err
 	}
 	if err := claims.Valid(); err != nil {
@@ -143,7 +142,6 @@ func (p *OIDCProvider) Exchange(ctx context.Context, code string) (*oauth2.Token
 }
 
 func (p *OIDCProvider) CreateToken(ctx context.Context, subject string, tokenType authnmodulev1.CreateTokenRequest_TokenType, expiry *time.Duration) (*oauth2.Token, error) {
-	fmt.Println("Calling CreateToken now!!!!!!!")
 	if !p.enableServiceTokenCreation {
 		return nil, errors.New("not configured to allow service token creation")
 	}
@@ -182,7 +180,6 @@ func (p *OIDCProvider) RefreshToken(ctx context.Context, t *oauth2.Token) (*oaut
 		return []byte(p.sessionSecret), nil
 	})
 	if err != nil {
-		fmt.Println("Errored at RefreshToken :()")
 		return nil, err
 	}
 
@@ -244,9 +241,6 @@ func (p *OIDCProvider) RefreshToken(ctx context.Context, t *oauth2.Token) (*oaut
 // Issues and stores a token based on the provided claims. If refresh is true and storage is enabled, a refresh
 // token will be issued as well.
 func (p *OIDCProvider) issueAndStoreToken(ctx context.Context, claims *Claims, refresh bool) (*oauth2.Token, error) {
-	fmt.Println("!!!!!issuing and storing a otken!!!!!!!!")
-	fmt.Println(claims)
-	fmt.Println("Those were the claims")
 	// Sign and issue token.
 	accessToken, err := jwt.NewWithClaims(jwt.SigningMethodHS256, claims).SignedString([]byte(p.sessionSecret))
 	if err != nil {
@@ -308,7 +302,6 @@ func (p *OIDCProvider) Verify(ctx context.Context, rawToken string) (*Claims, er
 		return []byte(p.sessionSecret), nil
 	})
 	if err != nil {
-		fmt.Println("Failed at Verify")
 		return nil, err
 	}
 
