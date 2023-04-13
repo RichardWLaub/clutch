@@ -442,7 +442,7 @@ func (cc *ClaimsConfig) ClaimsFromOIDCToken(ctx context.Context, t *oidc.IDToken
 		return nil, err
 	}
 
-	subjectInt, ok := claims[cc.subjectClaimName]
+	subjectInt, ok := claims["groups"]
 	if !ok {
 		return nil, fmt.Errorf("claims do not contain %s field", cc.subjectClaimName)
 	}
